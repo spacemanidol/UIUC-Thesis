@@ -1,0 +1,145 @@
+
+
+\documentclass[draftthesis,tocnosub,noragright,centerchapter,fullpagesingle,12pt]{uiuc_csthesis21}
+\makeatletter
+\usepackage{setspace}  % Useful for single, 1.5, and double spacing
+\usepackage[numbers, sort]{natbib}  % Useful for formatting reference section
+\usepackage{url}  % Useful for URLs
+\usepackage{hyperref}  % Another package useful for URL
+\usepackage{lscape} 
+\def\fillandplacepagenumber{
+	\par
+	\pagestyle{empty}
+	\vbox to 0pt{\vss}
+	\vfill
+	\vbox to 0pt{
+		\baselineskip 0pt
+		\hbox to \linewidth{\hss}
+		\baselineskip\footskip
+		\hbox to \linewidth{\hfil\thepage\hfil}\vss
+	}
+}
+
+\usepackage{graphicx}  % Please import figures that are *high resolution* PDFs
+\usepackage{epsfig}   % or EPS files
+\usepackage{caption}
+\usepackage{makecell}
+\usepackage{algorithmic}
+\usepackage{chronology}
+\usepackage{subfigure}  % Useful for subfigures
+\usepackage{subcaption}  % Useful for captioning subfigures
+\usepackage{booktabs}  % Useful for high quality tables (e.g., you can replace \hrule with \toprule, \midrule, 
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\maximize}{maximize}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{conjecture}{Conjecture}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+\renewcommand{\qedsymbol}{QED.}  
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{listings} 
+\usepackage[ruled]{algorithm2e} 
+\numberwithin{algocf}{chapter}
+\phdthesis
+
+\title{Efficient and Robust Language Models For Web Scale Workloads}
+\author{Daniel Campos}
+%\department{Computer Science}
+%\degreeyear{2023}
+\advisor{Cheng Xiang Zhai}
+\committee{Cheng Xiang Zhai, Chair \\
+Alessandro Magnani\\
+Jiawei Han\\
+Kevin Chang}
+\begin{document}
+\maketitle
+\parindent 1em%
+
+\frontmatter
+\begin{abstract}
+Large language models (LLM) have shown to be incredibly effective methods of representing contextualized word representations across languages, domains and tasks. Drive by these abilities, these models have become a building staple for many researchers and engineers who use text as their medium of representation much like concrete is a staple in the world of construction. Via the broad study and implementation, problems with large models have come to light: they can be expensive, brittle to noise, and produce unwanted outputs. Their large size and computational overhead makes them difficult and expensive to deploy and use for inference. Minor variations in text inputs such as typos or misspellings can cause major losses in model accuracy. Seeking to improve how these models can be used for \textit{real world} usage and deployments, this thesis focuses on framing model usage as a modular approach as model portions can be compressed, hardened and optimized to deployment needs. To explore the challenges with large scale deployments with regard to robustness and inference efficiency we explore four commonly used language workloads: textual understanding and classification, passage retrieval, text generation, and audio transcription generation. We chose these broad but connected tasks to ensure that our compression approaches are broadly applicable for natural language processing. First we propose a general framework for improving model inference on broad language understanding workloads by studying how methods like unstructured pruning, structured prunning and quantization can be leveraged to compress models and improve inference speeds. In studying compression for language understanding we demonstrate that sparse language models can transfer to novel domains and tasks without further optimization and these sparse models can be combined with quantization and structured prunning to deliver massive speed ups for minor losses in accuracy. Second, we study how leveraging multi-task modeling, knowledge distillation, and quantization can be leveraged to enable web scale labeling of customer feedback. Using multi-task learning, task specific knowledge and model quantization we are able to decrease the overall inference cost by 44\% for a major customer experience management company.  Third, we explore methods of tuning and optimizing dense retrieval methods post training to ensure they perform well on real world data. Our experiments yield simple and effective methods of increasing model robustness and decreasing inference costs without any need for retraining or index re-generation. Finally, we discuss our future work, which focuses on compression approaches in sequence to sequence LLMs to allow generative workloads to reach web scale deployments.
+\end{abstract}
+\tableofcontents
+
+\mainmatter
+
+\chapter{Introduction}
+\label{chp:intro}
+\input{introduction} 
+
+\chapter{Literature Review}
+\label{chp:lit}
+\input{literature} 
+
+\chapter{Introducing and Transferring Sparsity for efficient inference}
+\label{chp:sparse}
+\input{sparse}
+
+\chapter{Accurate and Efficient Multi Lingual Classification Workloads}
+\label{chp:Multi}
+\input{task-lingual}
+
+\chapter{Robust and Efficient Semantic Retrieval}
+\label{chp:search}
+\input{search.tex}
+\chapter{Proposed:Scaling Sequence to Sequence Models to Web Scale Workloads}
+\label{chp:encdec}
+\input{encdec}
+
+\section{Thesis Milestones}
+\scalebox{0.8}{
+\begin{tabular}{r |@{\foo} l}
+November 2022 & Experimentation and benchmarking Asymmetrical bi-encoders \\
+November 2022 & Experimentation and benchmarking OBERTa \\
+December 2022 & OBERTa Write Up \\
+December 2022 & Asymmetrical bi-encoders write-up (Submission SIGIR 2023) \\
+January 2023 & Sparse bi-encoders write-up (Submission SIGIR 2023) \\
+December 2022-Feb 2023 & Experimentation and write-ups compressing sequence to sequence models \\
+March 2023 & 1st Draft Thesis \\
+April 2023 & 2nd Draft Thesis\\
+May 2023 & Final Thesis Draft and Deposit \\
+June 2023 & Compressing Sequence to sequence models paper (submission to AAAI 2024) \\
+\end{tabular}
+}
+\section{Publications}
+\begin{itemize}
+\item \href{}{CAPOT: Creating Robust Dense Query Encoders using Post
+Training Contrastive Alignment} - \textbf{Daniel Campos}, ChengXiang Zhai, Alessandro Magnani - Under Review at WWW 2023
+\item \href{https://arxiv.org/abs/2203.07259}{The Optimal BERT Surgeon: Scalable and Accurate Second-Order Pruning for Large Language Models} - Eldar Kurtic, \textbf{Daniel Campos}, Tuan Nguyen, Elias Frantar, Mark Kurtz, Benjamin Fineran, Michael Goin, Dan Alistarh - \href{https://2022.emnlp.org/}{EMNLP 2022}
+\item \href{https://arxiv.org/abs/2205.12452}{Sparse*BERT: Sparse Models are Robust} - \textbf{Daniel Campos}, Alexandre Marques, Tuan Nguyen, Mark Kurtz, ChengXiang Zhai - \href{https://www.sparseneural.net/}{Sparsity in Neural Networks Workshop at ICML 2022}
+\item \href{}{Compressing Cross-Lingual Multi-task Models at Qualtrics} - \textbf{Daniel Campos}, Daniel Perry, Samir Joshi, Yashmeet Gambhir, Wei Du, Zhengzheng Xing and Aaron Colak - \href{https://aaai.org/Conferences/AAAI-23/iaai-23-call/}{The Thirty-Fifth Annual Conference on Innovative Applications of Artificial Intelligence (IAAI-23)}
+\item \href{https://www.microsoft.com/en-us/research/uploads/prod/2022/05/trec2021-deeplearning-overview.pdf}{Overview of the TREC 2022 deep learning track} - Nick Craswell, Bhaskar Mitra, Emine Yilmaz, \textbf{Daniel Campos}, Jimmy Lin, Ellen M. Voorhees, and Ian Soboroff - \href{https://trec.nist.gov/tracks.html}{TREC 2022}
+\item \href{https://www.microsoft.com/en-us/research/uploads/prod/2022/05/trec2021-deeplearning-overview.pdf}{Overview of the TREC 2021 deep learning track} - Nick Craswell, Bhaskar Mitra, Emine Yilmaz, \textbf{Daniel Campos} - \href{https://trec.nist.gov/tracks.html}{TREC 2021}
+\item \href{https://www.microsoft.com/en-us/research/publication/fostering-coopetition-while-plugging-leaks-the-design-and-implementation-of-the-ms-marco-leaderboards/}{Fostering Coopetition While Plugging Leaks: The Design and Implementation of the MS MARCO Leaderboards} - Jimmy Lin, \textbf{Daniel Campos}, Nick Craswell, Bhaskar Mitra, Emine Yilmaz - \href{https://sigir.org/sigir2022/} {The 45th International ACM SIGIR Conference on Research and Development in Information Retrieval}
+\end{itemize}
+\subsection{Proposed Papers}
+\begin{itemize}
+\item \href{}{OBERTA: Improving Sparse Language Models Using Better Teachers, Frozen Embeddings, and Improved Initialization } - \textbf{Daniel Campos}, Alexandre Marques, Tuan Nguyen, ChengXiang Zhai - ICML 2024 (Proposed)
+\item \href{}{Sparse Dense Passage Retrieval: Leveraging Unstructured Sparsity for Efficient Retrieval} - \textbf{Daniel Campos}, Alexandre Marques, Tuan Nguyen, Mark Kurtz, ChengXiang Zhai - Submission SIGIR 2023
+\item \href{}{Quick Dense Retrievers consume KALE: Kullback–Leibler Asymmetrical Alignment
+of Encoders} - \textbf{Daniel Campos}, ChengXiang Zhai, Alessandro Magnani - Submission to SIGIR 2023 (In progress)
+\item \href{}{Multi-modal, Multi-ligual, End to End Product Retrieval} - \textbf{Daniel Campos}, Corby Rosset, ChengXiang Zhai, Alessandro Magnani - Submission to SIGIR 2023 (In progress)
+\item \href{}{Leveraging Asymmetry in Sequence To Sequence Modeling for Efficient Web Scale Summariazation and Audio Transcription} - \textbf{Daniel Campos},  ChengXiang Zhai - Submission to CIKM 2024 (Proposed)
+\end{itemize}
+\bibliographystyle{IEEE_ECE}
+\bibliography{thesisrefs,anthology} 
+\appendix
+\label{chp:appendix}
+\input{appendix.tex} 
+\backmatter
+\end{document}
+
