@@ -2,7 +2,7 @@
 In this chapter, we provide a broad overview of the relevant subject which we will discuss. First, we discuss language models, their importance, and their limitations. Next, we discuss the broad field of model compression and some popular approaches for model compression. Third, we discuss the application of language models as applied to information retrieval. 
 \section{Language Models}
 \subsection{What is language modeling and why is it useful}
-Language modeling is a method of assigning a probability distribution over some form of language, like input. When applied to tokens in spoken or written human language modeling models, the probability of a token $w_i$ given the previous $i$ tokens as shown in equation \fullref{equation:langmodel}:
+Language modeling is a method of assigning a probability distribution over some form of language, like input. When applied to tokens in spoken or written human language modeling models, the probability of a token $w_i$ given the previous $i$ tokens as shown in equation \ref{equation:langmodel}:
 \begin{equation}
     P(w_{1},\ldots ,w_{m})=\prod _{i=1}^{m}P(w_{i}\mid w_{1},\ldots ,w_{i-1})\approx \prod _{i=1}^{m}P(w_{i}\mid w_{i-(n-1)},\ldots ,w_{i-1})
 \label{equation:langmodel}

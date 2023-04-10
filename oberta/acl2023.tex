@@ -1,65 +1,6 @@
-\pdfoutput=1
-\documentclass[11pt]{article}
-\usepackage{authblk}
-\usepackage[review]{ACL2023}
-\usepackage{times}
-\usepackage{latexsym}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{microtype}
-\usepackage{inconsolata}
-\usepackage{times}
-\usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{latexsym}
-\usepackage{array}
-\usepackage{booktabs}
-\setlength{\heavyrulewidth}{1.5pt}
-\setlength{\abovetopsep}{4pt}
-\usepackage{pgfplots}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage{graphicx}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{microtype}
-\usepackage{xcolor}
-\usepackage{soul}
-\usepackage{fullpage}
-\usepackage{enumitem}
-\usepackage{pgfplots}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage{graphicx}
-\usepackage{placeins}
-\usepackage{tabularx}
-\usepackage{makecell}
-\usepackage{booktabs}       % professional-quality tables
-\usepackage{array}          % tables with fixed lengths - enables using "m" to center content of non-multirow cells
-\usepackage{colortbl}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
-\newcommand{\greyrule}{\arrayrulecolor{black!30}\midrule\arrayrulecolor{black}}
-\usepackage{subcaption}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{mathtools}
-%
-\title{oBERTa: Improving Sparse Transfer Learning via improved initialization, distillation, and pruning regimes }%\thanks{~~~Corresponding author: dcampos3@illinois.edu} }
-\author[1]{Daniel Campos } 
-\author[2]{Alexandre Marques}
-\author[2]{Mark Kurtz}
-\author[1]{ChengXiang Zhai}
-\affil[1]{Department of Computer Science, the University of Illinois Urbana-Champaign}
-\affil[2]{Neural Magic Inc.}
-\newcommand{\alex}[1]{{\color{blue}#1}}
-\setlength{\parindent}{0pt}
-\begin{document}
-\maketitle
-\begin{abstract}
-In this paper, we introduce the range of oBERTa language models, an easy-to-use set of language models which allows Natural Language Processing (NLP) practitioners to obtain between 3.8 and 24.3 times faster models without expertise in model compression. Specifically, oBERTa extends existing work on pruning, knowledge distillation, and quantization and leverages frozen embeddings, improves distillation, and model initialization to deliver higher accuracy on a broad range of transfer tasks. In generating oBERTa, we explore how the highly optimized RoBERTa differs from the BERT for pruning during  pre-training and fine-tuning. We find it less amenable to compression during  fine-tuning. We explore the use of oBERTa on seven representative NLP tasks and find that the improved compression techniques allow a pruned oBERTa model to match the performance of BERT\textsubscript{base} and exceed the performance of Prune OFA Large on the SQUAD V1.1 Question Answering dataset, despite being 8x and 2x respectively faster in inference. We release our code, training regimes, and associated model for broad usage to encourage usage and experimentation. \footnote{https://github.com/neuralmagic/sparseml/}\textsuperscript{,}\footnote{https://sparsezoo.neuralmagic.com/}
-\end{abstract}
-\section{Introduction}
+\subsection{Overview}
+In this paper, we introduce the range of oBERTa language models, an easy-to-use set of language models which allows Natural Language Processing (NLP) practitioners to obtain between 3.8 and 24.3 times faster models without expertise in model compression. Specifically, oBERTa extends existing work on pruning, knowledge distillation, and quantization and leverages frozen embeddings, improves distillation, and model initialization to deliver higher accuracy on a broad range of transfer tasks. In generating oBERTa, we explore how the highly optimized RoBERTa differs from the BERT for pruning during  pre-training and fine-tuning. We find it less amenable to compression during  fine-tuning. We explore the use of oBERTa on seven representative NLP tasks and find that the improved compression techniques allow a pruned oBERTa model to match the performance of BERT\textsubscript{base} and exceed the performance of Prune OFA Large on the SQUAD V1.1 Question Answering dataset, despite being 8x and 2x respectively faster in inference. We release our code, training regimes, and associated model for broad usage to encourage usage and experimentation. 
+\subsection{Introduction}
 \begin{figure}[!htb]
 \begin{tikzpicture}
 \scalebox{0.9}{
@@ -112,7 +53,6 @@ In this paper, we introduce the range of oBERTa language models, an easy-to-use 
     coordinates {
     (91.0,3.57)(89.84,4.09)(89.26,7.78)(84.66,13.95)
     };
-%\legend{BERT-\textsubscript{base} \cite{Devlin2019BERTPO},PruneBert \cite{Sanh2020MovementPA},  oBERT\textsubscript{large} \cite{Frantar2021EfficientMA},  PruneOFA\cite{Zafrir2021PruneOF}, oBERTa (Ours)}
 \legend{BERT\textsubscript{base} ,PruneBert,  oBERT\textsubscript{large} ,  PruneOFA, oBERTa (Ours)}
  \end{axis}}
 \end{tikzpicture}
@@ -129,7 +69,7 @@ As shown in figure \ref{fig:squadv1}, oBERTa provides state-of-the-art performan
 In this paper, we focus on the following research questions: 
 \begin{itemize}
     \item RQ1: Is RoBERTa more sensitive to unstructured pruning than BERT?
-    \item RQ2: What impact of using a larger teacher for KD during pruning of language models? 
+    \item RQ2: What impact of using a larger teacher for KD during the pruning of language models? 
     \item RQ3: Can frozen embeddings improve the accuracy of pruned language models?
 \end{itemize}As part of our experimentation, we release the associated models and the training regimes to aid reproducibility and encourage efficient inference models. \\
 In summary, our contributions are as follows:
@@ -147,17 +87,11 @@ While many methods to improve model efficiency exist, the same goal generally un
 \textbf{Knowledge Distillation} \cite{Hinton2015DistillingTK} is a training method where a model is not explicitly a compression method but a training method where a model, called the \textit{student} learns to emulate a \textit{teacher} model which is commonly larger or better performing. The loss extracted from the original training data in KD is augmented or replaced by KL divergence between the student and teacher model. \\
 KD leverages the hardness parameter $h$ to control the mixture of regular and distillation loss (with a higher distillation favoring the KL divergence loss) and a temperature parameter $t$ to control the softness of the distribution. \\
 As applied to language models, the approach has been used to improve the performance of structurally pruned language models resulting in models like DistilBERT \cite{sanh2019distilbert} and TinyBERT \cite{Jiao2020TinyBERTDB}. \\
-\textbf{Quantization} reduces the precision for the model weights and activations to lower the computational requirements of model execution. While researchers have explored reducing representation to binary representations \cite{Pouransari2020LeastSB}, current hardware limits inference speedups to 8 or 4-bit representations. Quantization can be applied after the model is trained in a one-shot fashion, but this can lead to large losses in accuracy because of rounding errors. To avoid this pitfall, quantization is applied as quantization-aware training (QAT), where the forward pass of the model is simulated with lower precision. In contrast, the backward pass happens in full precision. By using QAT models, learn to be robust to rounding errors and can result in quantization having little to no loss in accuracy. In language models, research has produced quantized language models such as Q8BERT \cite{Zafrir2019Q8BERTQ8} and is commonly used in conjunction with structured and unstructured pruning \cite{Zafrir2021PruneOF} as a way of introducing compounding compression.\\
-Additional approaches such as early exiting \cite{Xin2020DeeBERTDE} or token pruning \cite{Kim2021LearnedTP} have also improved inference efficiency. Still, the inference improvements can be very dataset dependent and, as a result, out of our experimentation frame. \\
+\textbf{Quantization}Quantization precision for the model weights and activations to lower the computational requirements of model execution. While researchers have explored reducing representation to binary representations \cite{Pouransari2020LeastSB}, current hardware limits inference speedups to 8 or 4-bit representations. Quantization can be applied after the model is trained in a one-shot fashion, but this can lead to large losses in accuracy because of rounding errors. To avoid this pitfall, quantization Quantizations quantization-aware training (QAT), where the forward pass of the model is simulated with lower precision. In contrast, the backward pass happens in full precision. By using QAT models, learn to be robust to rounding errors and can result in Quantization having little to no loss in accuracy. In language models, research has produced quantized language models such as Q8BERT \cite{Zafrir2019Q8BERTQ8} and is commonly used in conjunction with structured and unstructured pruning \cite{Zafrir2021PruneOF} as a way of introducing compounding compression.\\
+Other approaches such as early exiting \cite{Xin2020DeeBERTDE} or token pruning \cite{Kim2021LearnedTP} have also improved inference efficiency. Still, the inference improvements can be very dataset dependent and, as a result, out of our experimentation frame. \\
 \section{Improving Sparse Transfer Learning}
 \input{method}
 \section{Experimental Results}
 \input{experiment}
 \section{Discussion}
 \input{discussion}
-\bibliography{anthology,custom}
-\bibliographystyle{acl_natbib}
-\appendix
-\section{Appendix}
-\input{appendix}
-\end{document}

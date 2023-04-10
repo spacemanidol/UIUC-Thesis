@@ -1,158 +1,25 @@
-% File: anonymous-submission-latex-2023.tex
-\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
-\usepackage[]{aaai23}  % DO NOT CHANGE THIS
-\usepackage{times}  % DO NOT CHANGE THIS
-\usepackage{helvet}  % DO NOT CHANGE THIS
-\usepackage{courier}  % DO NOT CHANGE THIS
-\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
-\usepackage{graphicx} % DO NOT CHANGE THIS
-\urlstyle{rm} % DO NOT CHANGE THIS
-\def\UrlFont{\rm}  % DO NOT CHANGE THIS
-\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
-\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
-\frenchspacing  % DO NOT CHANGE THIS
-\setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS
-\setlength{\pdfpageheight}{11in} % DO NOT CHANGE THIS
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{breqn}
-%
-% These are recommended to typeset algorithms but not required. See the subsubsection on algorithms. Remove them if you don't have algorithms in your paper.
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{multirow}
-
-%
-% These are are recommended to typeset listings but not required. See the subsubsection on listing. Remove this block if you don't have listings in your paper.
-\usepackage{newfloat}
-\usepackage{listings}
-\DeclareCaptionStyle{ruled}{labelfont=normalfont,labelsep=colon,strut=off} % DO NOT CHANGE THIS
-\lstset{%
-	basicstyle={\footnotesize\ttfamily},% footnotesize acceptable for monospace
-	numbers=left,numberstyle=\footnotesize,xleftmargin=2em,% show line numbers, remove this entire line if you don't want the numbers.
-	aboveskip=0pt,belowskip=0pt,%
-	showstringspaces=false,tabsize=2,breaklines=true}
-\floatstyle{ruled}
-\newfloat{listing}{tb}{lst}{}
-\floatname{listing}{Listing}
-%
-% Keep the \pdfinfo as shown here. There's no need
-% for you to add the /Title and /Author tags.
-\pdfinfo{
-/TemplateVersion (2023.1)
-}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-% DISALLOWED PACKAGES
-% \usepackage{authblk} -- This package is specifically forbidden
-% \usepackage{balance} -- This package is specifically forbidden
-% \usepackage{color (if used in text)
-% \usepackage{CJK} -- This package is specifically forbidden
-% \usepackage{float} -- This package is specifically forbidden
-% \usepackage{flushend} -- This package is specifically forbidden
-% \usepackage{fontenc} -- This package is specifically forbidden
-% \usepackage{fullpage} -- This package is specifically forbidden
-% \usepackage{geometry} -- This package is specifically forbidden
-% \usepackage{grffile} -- This package is specifically forbidden
-% \usepackage{hyperref} -- This package is specifically forbidden
-% \usepackage{navigator} -- This package is specifically forbidden
-% (or any other package that embeds links such as navigator or hyperref)
-% \indentfirst} -- This package is specifically forbidden
-% \layout} -- This package is specifically forbidden
-% \multicol} -- This package is specifically forbidden
-% \nameref} -- This package is specifically forbidden
-% \usepackage{savetrees} -- This package is specifically forbidden
-% \usepackage{setspace} -- This package is specifically forbidden
-% \usepackage{stfloats} -- This package is specifically forbidden
-% \usepackage{tabu} -- This package is specifically forbidden
-% \usepackage{titlesec} -- This package is specifically forbidden
-% \usepackage{tocbibind} -- This package is specifically forbidden
-% \usepackage{ulem} -- This package is specifically forbidden
-% \usepackage{wrapfig} -- This package is specifically forbidden
-% DISALLOWED COMMANDS
-% \nocopyright -- Your paper will not be published if you use this command
-% \addtolength -- This command may not be used
-% \balance -- This command may not be used
-% \baselinestretch -- Your paper will not be published if you use this command
-% \clearpage -- No page breaks of any kind may be used for the final version of your paper
-% \columnsep -- This command may not be used
-% \newpage -- No page breaks of any kind may be used for the final version of your paper
-% \pagebreak -- No page breaks of any kind may be used for the final version of your paperr
-% \pagestyle -- This command may not be used
-% \tiny -- This is not an acceptable font size.
-% \vspace{- -- No negative value may be used in proximity of a caption, figure, table, section, subsection, subsubsection, or reference
-% \vskip{- -- No negative value may be used to alter spacing above or below a caption, figure, table, section, subsection, subsubsection, or reference
-
-\setcounter{secnumdepth}{2} %May be changed to 1 or 2 if section numbers are desired.
-
-% The file aaai23.sty is the style file for AAAI Press
-% proceedings, working notes, and technical reports.
-%
-
-% Title
-
-% Your title must be in mixed case, not sentence case.
-% That means all verbs (including short verbs like be, is, using,and go),
-% nouns, adverbs, adjectives should be capitalized, including both words in hyphenated terms, while
-% articles, conjunctions, and prepositions are lower case unless they
-% directly follow a colon or long dash
-
-% \iffalse
-%Example, Multiple Authors, ->> remove \iffalse,\fi and place them surrounding AAAI title to use it
-\title{Compressing Cross-Lingual Multi-Task Models at Qualtrics}
-\author{
-    % Authors
-    Daniel Campos\footnote{This work was done while the first author was doing an internship at Qualtrics},
-    Daniel J. Perry,
-    Samir Joshi,
-    Yashmeet Gambhir,
-    Wei Du,
-    Zhengzheng Xing,
-    Aaron Colak
-}
-\affiliations {
-    % Affiliations
-    Qualtrics \\
-    dcampos3@illinois.edu, \{dperry, samirj, yashmeetg, weidu, zxing, aaronrc\}@qualtrics.com
-}
-% \fi
-
-
-% REMOVE THIS: bibentry
-% This is only needed to show inline citations in the guidelines document. You should not need it and can safely delete it.
-\usepackage{bibentry}
-% END REMOVE bibentry
-
-\begin{document}
-
-\maketitle
-
-\begin{abstract}
+\subsection{Overveiw}
 Experience management is an emerging business area where organizations focus on understanding the feedback of customers and employees in order to improve their end-to-end experiences.
 This results in a unique set of machine learning problems to help understand how people feel, discover issues they care about, and find which actions need to be taken on data that are different in content and distribution from traditional NLP domains.
 In this paper, we present a case study of building text analysis applications that perform multiple classification tasks efficiently in 12 languages in the nascent business area of experience management.
-In order to scale up modern ML methods on experience data, we leverage cross lingual and multi-task modeling techniques to consolidate our models into a single deployment to avoid overhead.
+In order to scale up modern ML methods on experience data, we leverage cross-lingual and multi-task modeling techniques to consolidate our models into a single deployment to avoid overhead.
 We also make use of model compression and model distillation to reduce overall inference latency and hardware cost to the level acceptable for business needs while maintaining model prediction quality.
 Our findings show that multi-task modeling improves task performance for a subset of experience management tasks in both XLM-R and mBert architectures.
 Among the compressed architectures we explored, we found that MiniLM achieved the best compression/performance tradeoff.
 Our case study demonstrates a speedup of up to 15.61x with 2.60\% average task degradation (or 3.29x speedup with 1.71\% degradation) and estimated savings of 44\% over using the original full-size model.
 These results demonstrate a successful scaling up of text classification for the challenging new area of ML for experience management.
-\end{abstract}
-
 \section*{Introduction}
 Experience management enables businesses and organizations to effectively adapt to actionable feedback from their customers and employees.
 Understanding and managing a customer or employee experience requires analyzing a combination of survey questions, social media, and other sources of experience data together in order to derive insight.
-Deriving insight requires effectively predicting the feelings, emotions, as well as the requested actions from feedback in a scalable way.
+Deriving insight requires effectively predicting the feelings, emotions, as well as requested actions from feedback in a scalable way.
 To accurately predict these insights we leverage state-of-the-art pretrained language models.
 
 However, many of the best pretrained models require significant resources to deploy at scale. 
-For example, the best performing models for tasks such as semantic similarity of sentences~\cite{wang2018glue} can have hundreds of billions of parameters~\cite{smith2022using}.
+For example, the best-performing models for tasks such as semantic similarity of sentences~\cite{wang2018glue} can have hundreds of billions of parameters~\cite{smith2022using}.
 Even more pedestrian (in terms of size) models such as BERT-base~\cite{devlin-etal-2019-bert} can still be relatively expensive and latency-prone for a typical business use case, especially without specialized hardware or accelerators.
-One way to both achieve high prediction accuracy and scale up is to leverage model compression.
+One way to achieve high prediction accuracy and scale-up is to leverage model compression.
 
-While there is substantial literature on model compression, it can be difficult to sort through all the methods and evaluate them on a case by case basis.
+While there is substantial literature on model compression, it can be difficult to sort through all the methods and evaluate them on a case-by-case basis.
 Our contribution is a specific case study evaluation of model compression methods for Qualtrics models on experience management data and its unique challenges.
 In this work, we are particularly interested in building efficient text classifiers, an important problem in the experience management domain. 
 Indeed, unstructured data constitutes more than 80\% of the experience management data.
@@ -511,11 +378,11 @@ We note that the savings is limited by the persistent cost of the base capacity,
 Currently, we deploy our models on a public cloud with a cost of approximately \$80K/month/model.
 The compression technique used in this paper reduces cost by 44\%, resulting in \$35K savings/month for a single model compared to the current model in production for the same tasks.
 As we push our compression framework to various other NLP systems currently developed by this group, it can result in a potential yearly cost savings in the single digit millions of dollars.
-Considering current macro-economic conditions when there is industry wide need for financial costs reduction, the significant savings can strengthen the fundamentals of a typical SaaS company like Qualtrics. 
+Considering current macroeconomic conditions when there is industry-wide need for financial costs reduction, the significant savings can strengthen the fundamentals of a typical SaaS company like Qualtrics. 
 
 \subsection*{Ethical impact}
 We are pleased that our efforts to compress models will support environmental sustainability.
-By reducing the amount of power and resource needed to run the same inference, we anticipate meaningful impact on environmental footprint, though we are unable to quantify it concretely at this time.
+By reducing the amount of power and resource needed to run the same inference, we anticipate the meaningful impact on the environmental footprint, though we are unable to quantify it concretely at this time.
 
 \subsection*{Operational impact \& robustness}
 While MiniLM-L6 provided better speedup, business needs required the lower degradation provided by MiniLM-L12 for the first set of models.
@@ -523,7 +390,7 @@ By leveraging the compressed XLMT model, we enable additional flexibility in pro
 This was not previously viable with larger models, which required GPUs in order to serve high throughput inference.
 By enabling this flexibility, we also improve system robustness, as the models are robust to instance unavailability or instance downtime for any type of instance.
 
-Additionally, savings from moving to a single multi-task model results in overall reduced workload for our engineering teams, removing per-task deployments and deployment pipelines and lowering the barriers to new tasks and new language support.
+Additionally, savings from moving to a single multi-task model results in an overall reduced workload for our engineering teams, removing per-task deployments and deployment pipelines and lowering the barriers to new tasks and new language support.
 Specifically, multi-task and cross-lingual modeling reduces the number of models for these tasks from 36 potential models (12 languages, 3 tasks) to a single model, reducing operational cost from 6-7 on-call/operations engineers to 1.
 Compression additionally reduces this cost by lowering latency and increasing throughput, reducing the operational cost of mitigating latency spikes and scaling issues.
 
@@ -534,9 +401,3 @@ Our results explore boundary cases where compression works well, and where it ca
 These approaches have been necessary for us to scale up our unique text classification problems in the growing field of experience management.
 We anticipate these results will help to guide other groups hoping to reduce model inference costs, as well as contribute to future theoretical work around the tradeoff between model compression and model consolidation.
 Looking forward, we plan to apply these methods to more complex sequence labeling tasks and to explore additional methods such as model sparsity and neural architecture search to see if even faster models can be developed with acceptable levels of model performance.
-
-\bibliography{aaai23.bib}
-
-\end{document}
-\end{verbatim}\end{scriptsize}
-\end{quote}
