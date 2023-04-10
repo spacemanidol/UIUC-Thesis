@@ -1,0 +1,40 @@
+\begin{table}[!htb]
+    \centering
+    \caption{Impact of structural pruning with and without KALE on Accuracy at 100 across various datasets. }
+    \tiny
+    \scalebox{0.8}{
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+        Layers & KALE & NQ & TriviaQA & MSMARCO & SCIFACT & SQUAD \\ \hline
+        12 & N/A & 85.84\% & 85.84\% & 88.77\% & 90.70\% & 77.16\% \\ \hline
+        9 & N & 79.97\% & 79.97\% & 82.01\% & 71.07\% & 71.38\% \\ \hline
+        9 & Y & 84.90\% & 84.90\% & 86.16\% & 84.87\% & 73.54\% \\ \hline
+        6 & N & 68.20\% & 68.20\% & 72.68\% & 22.98\% & 59.97\% \\ \hline
+        6 & Y & 83.68\% & 83.68\% & 84.68\% & 85.13\% & 69.87\% \\ \hline
+        3 & N & 43.88\% & 43.88\% & 11.39\% & 40.80\% & 34.42\% \\ \hline
+        3 & Y & 81.14\% & 81.14\% & 82.11\% & 82.57\% & 64.37\% \\ \hline
+        2 & N & 46.90\% & 46.90\% & 31.46\% & 42.66\% & 37.01\% \\ \hline
+        2 & Y & 81.94\% & 81.94\% & 81.96\% & 82.57\% & 63.72\% \\ \hline
+        1 & N & 12.22\% & 12.22\% & 0.00\% & 3.17\% & 11.66\% \\ \hline
+        1 & Y & 71.33\% & 71.33\% & 54.36\% & 66.83\% & 51.39\% \\ \hline
+    \end{tabular}}
+    \label{tab:kale-at-20}
+\end{table}
+While training asymmetric models can improve latency, it requires novel training regimes and experimentation, and existing workloads need to regenerate their entire index to take advantage of any inference speedups. Generation of the passage index can take longer than model training \cite{Karpukhin2020DensePR}, which makes regenerating a new index and retraining a model to meet changing latency requirements an inefficient experimentation pathway. \\Moreover, coupling asymmetry into training makes generating query encoder variants more difficult, as each encoder requires its own index and document encoder. \\
+Motivated by this bottleneck, we introduce \textbf{K}ullback-Leibler \textbf{Al}lingment of \textbf{E}mbeddings (KALE), a simple method of improving bi-encoder latency by aligning the embeddings of compressed models. KALE is applied after model training and leverages large batch sizes to make compression \textbf{computationally inexpensive} and \textbf{independent of training}. A single V100 GPU KALE can produce a compressed query encoder in less than 5 minutes.  \\
+First, a bi-encoder model trains with separate query and document encoders. When training is complete, the document encoder, $e_{document}$, is frozen, and using the query encoder, $e_{q}$, a structurally pruned copy, $e_{q'}$, is made. Then, using a sample of queries, the $e_{q'}$ model is fine-tuned to minimize the KL divergence of their query representations as shown in equation \ref{kale-eq:1}. \\
+\begin{equation}\label{kale-eq:1} 
+    \displaystyle D_{\text{KL}}(e_{q'} \parallel e_{q} )= \sum _{x\in {\mathcal {X}}}e_{q'}(x)\log \left({\frac {e_{q'}(x)}{e_{q}(x)}}\right).
+\end{equation}
+We explored the use of various distance functions such as cosine similarity, Manhattan distance, and the KL divergence but found little sensitivity in any metric besides KL divergence. We believe this is due to us freezing the document representations, and as a result, cosine distance allows the query embeddings to \textit{drift} more than probability distribution matching methods. To explore this further, we experiment with tuning the temperature for the KL divergence and add a loss scaling factor but find a temperature of one and a scaling factor of ten to be most optimal. \\
+Additionally, we explored using a contrastive loss with random negative and hard negatives mined from the trained encoder but found no positive impact for either method. We leave further exploration of training objective improvement for future work.
+\input{figure3}
+\subsection{Experimental Results}
+We evaluate the effectiveness of KALE by taking uncompressed BERT\textsubscript{BASE} models and pruning them with and without KALE on a variety of well-established passage retrieval benchmarks. First, models are trained, and indexes are generated using un-optimized BERT\textsubscript{BASE} models. Next, the document encoders are frozen, and the query encoders are structurally pruned to have 9,6,3,2 or 1 transformer layer. Finally, query encoders are aligned using KALE, and we compare the performance of compressed models by comparing the impact on retrieval accuracy at 20,100, and 200. \\
+To aid reproducibility, each model is trained using the Tevatron \cite{Gao2022TevatronAE} \footnote{https://github.com/texttron/tevatron} library, which makes use of hugginface's transformers to provide a simple interface for exploring neural ranking models. Our experiments focus on the plain BERT\textsubscript{BASE}-uncased 12-layer transformer model. While never more capable models exist, the unaltered BERT model is widely used in production workloads, which our experiments seek to emulate. \\
+Our work aims not to produce the highest possible retrieval accuracy for a dense encoder. Instead, our goal is to find the role of asymmetry in bi-encoder models. As a result, we leverage the well-established parameters in all of our experiments without using an advanced methodology like contrastive or curriculum learning. \\
+There are fewer parameters for using KALE, and we deliberately do not optimize on anything but the loss between $e_{q}$ and $e_{q'}$. In general, higher degrees of pruning require longer training with smaller batches. \\ 
+\textbf{Datasets} We use a wide variety of standard dense retrieval benchmarks, including MSMARCO V1.1 \footnote{https://huggingface.co/datasets/Tevatron/msmarco-passage} \cite{Campos2016MSMA}, NQ Passage Ranking \footnote{https://huggingface.co/datasets/Tevatron/wikipedia-nq} \cite{Kwiatkowski2019NaturalQA}, SciFact Passage Ranking \footnote{https://huggingface.co/datasets/Tevatron/scifact} \cite{Wadden2020FactOF}, TriviaQA passage Ranking \footnote{https://huggingface.co/datasets/Tevatron/wikipedia-trivia} \cite{Joshi2017TriviaQAAL}, and SQUAD Passage Ranking \footnote{https://huggingface.co/datasets/Tevatron/wikipedia-squad} \cite{Rajpurkar2016SQuAD10}. \\
+For each dataset, we evaluate performance by measuring the recall accuracy with retrieval depths of 20,100, and 200. Additionally, for the MSMARCO dataset, we also report MRR@10; for Scifact, we also report NDCG @10 and RR@10. \\
+\textbf{Computational Experiments}
+Our experimentation on fine-tuning our compressed models uses a 16 GB V100 GPU. Experiments in bi-encoder model training leverage 1 V100 for the MSMARCO and 4 for each other experiment. Due to the vast number of models and datasets we train on, each experiment happens with the same fixed seed.  

@@ -1,0 +1,334 @@
+\subsection{Training Details}
+\label{sec:training}
+In all of our experiments, we leverage the parameters shown in \ref{tab:hyperparams-transfer} on the datasets shown in \ref{tab:datasets}
+\begin{table*}[!htb]
+    \centering
+    \caption{Statistics for the abstractive summarization datasets which we study. Source and Summary refer to the number of words in each, and the compression factor is the ratio between the two on the train portion of the dataset.}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+        Dataset  & Train  & Validation & Test & Source & Summary & Compression \\ \hline
+        CNNDM \footnote{https://huggingface.co/datasets/cnn\_dailymail} & 287,113 & 13,368 & 11,490 & 691.87 & 51.57 & 14.80 \\ \hline
+        XSUM \footnote{https://huggingface.co/datasets/xsum}& 204,045 & 11,332 & 11,334 & 373.86 & 21.09 & 18.70\\ \hline
+        QIWS & 10000 & 1000 & 1000 & 1410.12 & 73.78 & 19.11 \\ \hline
+    \end{tabular}
+    \label{tab:datasets}
+\end{table*}
+\begin{table}
+        {\small 
+            \begin{tabular}{l|c}
+            \toprule
+            & 3,10 Epochs \\
+            \midrule
+            Initial learning rate & 1e-4\\
+            Learning rate schedule &  constant \\
+            \midrule
+                Batch size & 64 \\
+            \midrule
+            \midrule
+                Weight Decay & 0.01, 0.05, 0.1 \\
+            \midrule
+            \bottomrule
+            \end{tabular}
+        }
+    \caption{Training Hyperparameters for summarization experiments}
+    \label{tab:hyperparams-transfer}
+\end{table}
+\subsection{Scale and Abstractive summarization}
+The role of model scale on performance on the QIWS, CNN/DM, and XSUM datasets can be found in tables \ref{tab:scale-cnndm},\ref{tab:scale-qiws}, and \ref{tab:scale-xsum}
+\begin{table*}[!htb!]
+    \centering
+    \small
+    \scalebox{0.98}{
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Model & R-1 & Impact & R-2 & Impact & RSL & Impact & R-L & Impact & Genl & Impact \\ \hline
+        small & 50.22 & 0.00\% & 29.03 & 0.00\% & 45.87 & 0.00\% & 40.19 & 0.00\% & 62.79 & 0.00\% \\ \hline
+         base&  54.84 & 9.20\% & 34.19 & 17.77\% & 50.38 & 9.83\% & 44.68 & 11.18\% & 62.91 & 0.19\% \\ \hline
+         large &57.81 & 15.11\% & 37.37 & 28.72\% & 53.14 & 15.84\% & 48.16 & 19.84\% & 62.85 & 0.10\% \\ \hline
+    \end{tabular}}
+    \caption{Impact of Scale on summarization performance on QIWS dataset}
+    \label{tab:scale-qiws}
+\end{table*}
+\begin{table*}[!htb!]
+    \centering
+    \small
+    \scalebox{0.98}{
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Model & R-1 & Impact & R-2 & Impact & RSL & Impact & R-L & Impact & Genl & Impact \\ \hline
+        small & 39.31 & 0.00\% & 17.55 & 0.00\% & 36.50 & 0.00\% & 27.97 & 0.00\% & 77.62 & 0.00\% \\ \hline
+        base & 42.14 & 7.20\% & 19.77 & 12.63\% & 39.32 & 7.75\% & 30.15 & 7.80\% & 71.86 & -7.42\% \\ \hline
+        large & 43.99 & 11.90\% & 21.15 & 20.51\% & 41.12 & 12.68\% & 31.64 & 13.11\% & 71.01 & -8.51\% \\ \hline
+    \end{tabular}}
+    \caption{Impact of Scale on summarization performance on CNNDM dataset}
+    \label{tab:scale-cnndm}
+\end{table*}\\
+\begin{table*}[!htb]
+    \centering
+    \small
+    \scalebox{0.98}{
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Model & R-1 & Impact & R-2 & Impact & RSL & Impact & R-L & Impact & Genl & Impact \\ \hline
+        small & 33.2675 & 0.00\% & 11.09 & 0.00\% & 26.17 & 0.00\% & 26.17 & 0.00\% & 28.01 & 0.00\% \\ \hline
+        base & 38.7782 & 16.56\% & 15.69 & 41.45\% & 31.14 & 19.01\% & 31.15 & 19.04\% & 25.92 & -7.48\% \\ \hline
+        large & 39.7125 & 19.36\% & 16.34 & 47.36\% & 31.72 & 21.21\% & 31.72 & 21.23\% & 26.74 & -4.54\% \\ \hline
+    \end{tabular}}
+    \caption{Impact of Scale on summarization performance on XSUM dataset}
+    \label{tab:scale-xsum}
+\end{table*}
+\subsection{Asymmetry in Summarization}
+\label{appendix:asym-full}
+The role of the model scale, structural pruning, and asymmetry on performance on the QIWS, CNN/DM, and XSUM datasets can be found in tables \ref{tab:asym-small-xsum},\ref{tab:asym-base-xsum},\ref{tab:asym-large-xsum},\ref{tab:asym-small-cnndm},\ref{tab:asym-base-cnndm},\ref{tab:asym-large-cnndm},\ref{tab:asym-small-qiws},\ref{tab:asym-base-qiws}, and \ref{tab:asym-large-qiws}.
+\input{asymtables}
+\subsection{Inference Benchmarks}
+\label{sec:inference-benchmarks}
+Detailed variations in latency measurements across batch size, scale, structural pruning, and asymmetry on performance on the QIWS, CNN/DM, and XSUM datasets can be found in tables \ref{tab:qiws-asym-inference-small},\ref{tab:qiws-asym-inference-base}, \ref{tab:qiws-asym-inference-large}, \ref{tab:cnndm-asym-inference-small},\ref{tab:cnndm-asym-inference-base}, \ref{tab:cnndm-asym-inference-large}, \ref{tab:xsum-asym-inference-large}, \ref{tab:xsum-asym-inference-small}, and  \ref{tab:xswum-asym-inference-base}.
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 small model on the QIWS dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup \\ \hline
+         8 & 8 & 29.03 & 0.00\% & 524 & 3.95 & 1.00 & 653 & 2.49 & 1.00 & 729 & 5.12 & 1.00 \\ \hline
+        8 & 6 & 28.90 & -0.45\% & 406 & 1.28 & 1.29 & 514 & 5.02 & 1.27 & 583 & 2.47 & 1.25 \\ \hline
+        8 & 5 & 28.56 & -1.60\% & 348 & 2.34 & 1.51 & 455 & 1.6 & 1.44 & 527 & 1.85 & 1.38 \\ \hline
+        8 & 4 & 27.94 & -3.76\% & 293 & 3.35 & 1.79 & 394 & 6.32 & 1.66 & 469 & 2.65 & 1.55 \\ \hline
+        8 & 2 & 24.85 & -14.39\% & 195 & 1.61 & 2.69 & 353 & 3.38 & 1.85 & 426 & 6.38 & 1.71 \\ \hline
+        8 & 1 & 15.41 & -46.92\% & 132 & 0.959 & 3.97 & 211 & 2.82 & 3.09 & 389 & 2.94 & 1.87 \\ \hline
+        6 & 8 & 27.92 & -3.83\% & 512 & 5.15 & 1.02 & 626 & 4.19 & 1.04 & 684 & 2.81 & 1.07 \\ \hline
+        5 & 8 & 27.75 & -4.40\% & 508 & 3.56 & 1.03 & 617 & 4.91 & 1.06 & 666 & 4.16 & 1.09 \\ \hline
+        4 & 8 & 25.20 & -13.18\% & 514 & 3.55 & 1.02 & 603 & 4.52 & 1.08 & 639 & 2.08 & 1.14 \\ \hline
+        2 & 8 & 23.67 & -18.45\% & 514 & 514 & 1.02 & 585 & 5.36 & 1.12 & 608 & 4.45 & 1.20 \\ \hline
+        1 & 8 & 18.23 & -37.21\% & 510 & 5.81 & 1.03 & 574 & 4.21 & 1.14 & 595 & 7.06 & 1.23 \\ \hline
+        6 & 6 & 26.82 & -7.62\% & 407 & 5.26 & 1.29 & 496 & 8.77 & 1.32 & 548 & 1.97 & 1.33 \\ \hline
+        5 & 5 & 26.62 & -8.28\% & 346 & 6.84 & 1.51 & 430 & 3.54 & 1.52 & 480 & 12.4 & 1.52 \\ \hline
+        4 & 4 & 23.12 & -20.36\% & 375 & 4.25 & 1.40 & 441 & 6.92 & 1.48 & 478 & 10.6 & 1.53 \\ \hline
+        2 & 2 & 19.14 & -34.08\% & 402 & 2.05 & 1.30 & 452 & 9.84 & 1.44 & 476 & 8.29 & 1.53 \\ \hline
+        1 & 1 & 6.09 & -79.01\% & 134 & 6.2 & 3.91 & 527 & 3.03 & 1.24 & 549 & 13.4 & 1.33 \\ \hline
+    \end{tabular}
+    \label{tab:qiws-asym-inference-small}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 base model on the QIWS dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup \\ \hline
+         12 & 12 & 34.19 & 0.00\% & 746 & 11 & 1.00 & 1060 & 2.84 & 1.00 & 1310 & 6.8 & 1.00 \\ \hline
+        12 & 10 & 34.00 & -0.56\% & 625 & 3.27 & 1.19 & 943 & 4.69 & 1.12 & 1200 & 4.8 & 1.09 \\ \hline
+        12 & 8 & 34.50 & 0.91\% & 523 & 2.19 & 1.43 & 814 & 4.23 & 1.30 & 1070 & 5.34 & 1.22 \\ \hline
+        12 & 6 & 33.70 & -1.42\% & 425 & 1.92 & 1.76 & 652 & 3.39 & 1.63 & 970 & 4.79 & 1.35 \\ \hline
+        12 & 4 & 31.93 & -6.62\% & 350 & 1.32 & 2.13 & 510 & 3.1 & 2.08 & 815 & 2 & 1.61 \\ \hline
+        12 & 2 & 28.05 & -17.97\% & 202 & 1.41 & 3.69 & 451 & 2.92 & 2.35 & 762 & 0.911 & 1.72 \\ \hline
+        10 & 12 & 33.57 & -1.82\% & 710 & 6.2 & 1.05 & 995 & 2.74 & 1.07 & 1290 & 4.2 & 1.02 \\ \hline
+        8 & 12 & 33.06 & -3.31\% & 690 & 5.72 & 1.08 & 953 & 5.72 & 1.11 & 1270 & 4.3 & 1.03 \\ \hline
+        6 & 12 & 32.23 & -5.72\% & 716 & 8 & 1.04 & 944 & 7.22 & 1.12 & 1080 & 5.29 & 1.21 \\ \hline
+        4 & 12 & 27.47 & -19.65\% & 710 & 1.75 & 1.05 & 911 & 10.1 & 1.16 & 1,000 & 8.84 & 1.31 \\ \hline
+        2 & 12 & 25.57 & -25.22\% & 706 & 5.4 & 1.06 & 862 & 7.11 & 1.23 & 921 & 7.04 & 1.42 \\ \hline
+        10 & 10 & 32.88 & -3.82\% & 633 & 11.6 & 1.18 & 915 & 11 & 1.16 & 1120 & 5.51 & 1.17 \\ \hline
+        8 & 8 & 32.81 & -4.04\% & 512 & 4.98 & 1.46 & 737 & 9.78 & 1.44 & 911 & 4.98 & 1.44 \\ \hline
+        6 & 6 & 28.70 & -16.05\% & 401 & 3.16 & 1.86 & 572 & 4.73 & 1.85 & 702 & 1.57 & 1.87 \\ \hline
+        4 & 4 & 26.53 & -22.40\% & 301 & 2.92 & 2.48 & 415 & 3.01 & 2.55 & 509 & 0.997 & 2.57 \\ \hline
+        2 & 2 & 19.64 & -42.57\% & 189 & 1.98 & 3.95 & 312 & 2.88 & 3.40 & 389 & 0.892 & 3.37 \\ \hline
+    \end{tabular}
+    \label{tab:qiws-asym-inference-base}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 large model on the QIWS dataset}
+    \small
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup \\ \hline
+         24 & 24 & 37.37 & 0.00\% & 1430 & 6.08 & 1.00 & 2240 & 4.81 & 1.00 & 3320 & 1.02 & 1.00 \\ \hline
+        24 & 20 & 37.59 & 0.59\% & 1210 & 4.73 & 1.18 & 1990 & 6.89 & 1.13 & 3010 & 2.63 & 1.10 \\ \hline
+        24 & 16 & 36.56 & -2.16\% & 1000 & 2.70 & 1.43 & 1750 & 5.92 & 1.28 & 2710 & 1.57 & 1.23 \\ \hline
+        24 & 12 & 35.74 & -4.36\% & 795 & 6.61 & 1.80 & 1510 & 10.40 & 1.48 & 2400 & 1.59 & 1.38 \\ \hline
+        24 & 8 & 35.13 & -5.99\% & 585 & 4.99 & 2.44 & 1260 & 7.14 & 1.78 & 2090 & 7.17 & 1.59 \\ \hline
+        24 & 4 & 33.69 & -9.85\% & 373 & 1.16 & 3.83 & 1030 & 10.50 & 2.17 & 1790 & 1.72 & 1.85 \\ \hline
+        20 & 24 & 36.39 & -2.62\% & 1410 & 3.66 & 1.01 & 2130 & 10.90 & 1.05 & 3090 & 5.98 & 1.07 \\ \hline
+        16 & 24 & 35.90 & -3.93\% & 1395 & 3.52 & 1.03 & 2060 & 9.89 & 1.09 & 2880 & 3.32 & 1.15 \\ \hline
+        12 & 24 & 34.22 & -8.42\% & 1380 & 5.20 & 1.04 & 1900 & 9.65 & 1.18 & 2630 & 0.81 & 1.26 \\ \hline
+        8 & 24 & 33.42 & -10.57\% & 1370 & 5.49 & 1.04 & 1790 & 19.00 & 1.25 & 2400 & 1.34 & 1.38 \\ \hline
+        4 & 24 & 30.31 & -18.89\% & 1350 & 7.33 & 1.06 & 1670 & 5.30 & 1.34 & 2170 & 2.79 & 1.53 \\ \hline
+        20 & 20 & 36.32 & -2.80\% & 1200 & 5.37 & 1.19 & 1880 & 7.89 & 1.19 & 2780 & 1.15 & 1.19 \\ \hline
+        16 & 16 & 35.98 & -3.71\% & 1020 & 3.49 & 1.40 & 1530 & 5.62 & 1.46 & 2230 & 1.80 & 1.49 \\ \hline
+        12 & 12 & 33.00 & -11.69\% & 749 & 5.30 & 1.91 & 1160 & 2.94 & 1.93 & 1710 & 0.89 & 1.94 \\ \hline
+        8 & 8 & 30.78 & -17.62\% & 650 & 3.32 & 2.20 & 970 & 2.78 & 2.31 & 1550 & 0.79 & 2.14 \\ \hline
+        4 & 4 & 22.77 & -39.06\% & 585 & 2.23 & 2.44 & 890 & 3.21 & 2.52 & 1450 & 0.92 & 2.29 \\ \hline
+    \end{tabular}
+    \label{tab:qiws-asym-inference-large}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 small model on the CNNDM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup\\ \hline
+         8 & 8 & 17.55 & 0.00\% & 138 & 5.05 & 1.00 & 230 & 7.61 & 1.00 & 330 & 3.71 & 1.00 \\ \hline
+        8 & 6 & 17.68 & 0.74\% & 133 & 0.292 & 1.04 & 211 & 0.425 & 1.09 & 300 & 0.954 & 1.10 \\ \hline
+        8 & 5 & 17.27 & -1.64\% & 116 & 0.196 & 1.19 & 193 & 0.448 & 1.19 & 279 & 0.537 & 1.18 \\ \hline
+        8 & 4 & 16.40 & -6.57\% & 98.1 & 0.242 & 1.41 & 174 & 0.153 & 1.32 & 259 & 0.424 & 1.27 \\ \hline
+        8 & 2 & 15.35 & -12.58\% & 63.2 & 0.207 & 2.18 & 137 & 0.1 & 1.68 & 218 & 0.303 & 1.51 \\ \hline
+        8 & 1 & 11.33 & -35.43\% & 45.7 & 0.106 & 3.02 & 118 & 0.0827 & 1.95 & 198 & 0.148 & 1.67 \\ \hline
+        6 & 8 & 17.69 & 0.81\% & 166 & 0.303 & 0.83 & 230 & 1.42 & 1.00 & 303 & 1.06 & 1.09 \\ \hline
+        5 & 8 & 17.35 & -1.16\% & 165 & 0.267 & 0.84 & 219 & 0.521 & 1.05 & 283 & 1.13 & 1.17 \\ \hline
+        4 & 8 & 16.80 & -4.30\% & 164 & 0.185 & 0.84 & 211 & 0.89 & 1.09 & 265 & 1.85 & 1.25 \\ \hline
+        2 & 8 & 15.54 & -11.49\% & 162 & 332 & 0.85 & 191 & 0.332 & 1.20 & 226 & 625 & 1.46 \\ \hline
+        1 & 8 & 13.31 & -24.17\% & 161 & 0.626 & 0.86 & 180 & 0.423 & 1.28 & 206 & 0.55 & 1.60 \\ \hline
+        6 & 6 & 17.07 & -2.77\% & 131 & 0.617 & 1.05 & 192 & 0.247 & 1.20 & 261 & 0.768 & 1.26 \\ \hline
+        5 & 5 & 16.20 & -7.72\% & 113 & 0.306 & 1.22 & 164 & 0.642 & 1.40 & 220 & 1.36 & 1.50 \\ \hline
+        4 & 4 & 14.91 & -15.05\% & 95.1 & 0.0955 & 1.45 & 135 & 0.21 & 1.70 & 182 & 0.268 & 1.81 \\ \hline
+        2 & 2 & 11.97 & -31.83\% & 57.8 & 0.27 & 2.39 & 78.9 & 0.078 & 2.92 & 103 & 0.238 & 3.20 \\ \hline
+        1 & 1 & 6.05 & -65.55\% & 39.1 & 0.136 & 3.53 & 50.2 & 0.132 & 4.58 & 63.4 & 0.0845 & 5.21 \\ \hline
+    \end{tabular}
+    \label{tab:cnndm-asym-inference-small}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 base model on the CNNDM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup \\ \hline
+         12 & 12 & 19.77 & 0.00\% & 199 & 3.74 & 1.00 & 550 & 3.81 & 1.00 & 931 & 2.09 & 1.00 \\ \hline
+        12 & 10 & 19.92 & 0.76\% & 179 & 3.31 & 1.11 & 524 & 16.2 & 1.05 & 889 & 4.41 & 1.05 \\ \hline
+        12 & 8 & 19.85 & 0.42\% & 155 & 4.50 & 1.28 & 493 & 14 & 1.12 & 884 & 3.61 & 1.05 \\ \hline
+        12 & 6 & 18.85 & -4.63\% & 126 & 1.95 & 1.58 & 449 & 5.88 & 1.22 & 800 & 4.59 & 1.16 \\ \hline
+        12 & 4 & 18.68 & -5.49\% & 99.2 & 1.02 & 2.01 & 405 & 1.41 & 1.36 & 737 & 5.06 & 1.26 \\ \hline
+        12 & 2 & 16.48 & -16.62\% & 75.3 & 0.85 & 2.64 & 372 & 1.98 & 1.48 & 697 & 4.55 & 1.34 \\ \hline
+        10 & 12 & 19.92 & 0.76\% & 198 & 4.75 & 1.01 & 495 & 14.5 & 1.11 & 811 & 1.18 & 1.15 \\ \hline
+        8 & 12 & 19.67 & -0.50\% & 196 & 3.72 & 1.02 & 441 & 7.82 & 1.25 & 715 & 4.39 & 1.30 \\ \hline
+        6 & 12 & 18.85 & -4.63\% & 187 & 4.81 & 1.06 & 396 & 13.3 & 1.39 & 613 & 9.45 & 1.52 \\ \hline
+        4 & 12 & 18.22 & -7.86\% & 183 & 3.54 & 1.09 & 330 & 5.04 & 1.67 & 509 & 2.1 & 1.83 \\ \hline
+        2 & 12 & 17.06 & -13.73\% & 176 & 3.52 & 1.13 & 272 & 1.79 & 2.02 & 400 & 3.25 & 2.33 \\ \hline
+        10 & 10 & 19.72 & -0.26\% & 171 & 3.21 & 1.16 & 462 & 11.9 & 1.19 & 776 & 4.62 & 1.20 \\ \hline
+        8 & 8 & 19.17 & -3.01\% & 141 & 2.97 & 1.41 & 37 & 12.1 & 14.86 & 628 & 6.48 & 1.48 \\ \hline
+        6 & 6 & 17.46 & -11.71\% & 109 & 1.71 & 1.83 & 281 & 2.61 & 1.96 & 478 & 3.55 & 1.95 \\ \hline
+        4 & 4 & 15.87 & -19.74\% & 82.5 & 1.24 & 2.41 & 198 & 1.71 & 2.78 & 329 & 0.74 & 2.83 \\ \hline
+        2 & 2 & 12.23 & -38.12\% & 50.7 & 1.30 & 3.93 & 112 & 2.59 & 4.91 & 178 & 0.557 & 5.23 \\ \hline
+    \end{tabular}
+    \label{tab:cnndm-asym-inference-base}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 LARGE model on the CNNDM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup \\ \hline
+         24 & 24 & 21.15 & 0.00\% & 445 & 2.35 & 1.00 & 1480 & 20.1 & 1.00 & 2700 & 7.22 & 1.00 \\ \hline
+        24 & 20 & 21.30 & 0.69\% & 390 & 33.7 & 1.14 & 1390 & 4.24 & 1.06 & 2590 & 7.7 & 1.04 \\ \hline
+        24 & 16 & 21.32 & 0.81\% & 335 & 13.9 & 1.33 & 1330 & 7.7 & 1.11 & 2470 & 7.42 & 1.09 \\ \hline
+        24 & 12 & 21.08 & -0.34\% & 270 & 3.28 & 1.65 & 1250 & 11 & 1.18 & 2340 & 6.68 & 1.15 \\ \hline
+        24 & 8 & 20.67 & -2.27\% & 219 & 8.67 & 2.03 & 1180 & 8.17 & 1.25 & 2220 & 4.25 & 1.22 \\ \hline
+        24 & 4 & 19.49 & -7.88\% & 165 & 1.81 & 2.70 & 1090 & 6.6 & 1.36 & 2090 & 9.15 & 1.29 \\ \hline
+        20 & 24 & 21.13 & -0.12\% & 418 & 13.8 & 1.06 & 1320 & 15.3 & 1.12 & 2400 & 7.26 & 1.13 \\ \hline
+        16 & 24 & 20.83 & -1.53\% & 421 & 16.8 & 1.06 & 1150 & 16 & 1.29 & 2080 & 6.07 & 1.30 \\ \hline
+        12 & 24 & 20.53 & -2.94\% & 391 & 12.5 & 1.14 & 1000 & 21.7 & 1.48 & 1750 & 8.18 & 1.54 \\ \hline
+        8 & 24 & 19.74 & -6.67\% & 373 & 13.1 & 1.19 & 882 & 6.92 & 1.68 & 1430 & 4.79 & 1.89 \\ \hline
+        4 & 24 & 18.68 & -11.69\% & 350 & 4.32 & 1.27 & 670 & 15 & 2.21 & 1110 & 3.21 & 2.43 \\ \hline
+        20 & 20 & 21.23 & 0.34\% & 359 & 4.3 & 1.24 & 1240 & 15.3 & 1.19 & 2260 & 6.73 & 1.19 \\ \hline
+        16 & 16 & 20.90 & -1.19\% & 1289 & 2.5 & 0.35 & 994 & 21.6 & 1.49 & 1820 & 4.27 & 1.48 \\ \hline
+        12 & 12 & 20.13 & -4.84\% & 229 & 12.1 & 1.94 & 756 & 12.6 & 1.96 & 1370 & 4.6 & 1.97 \\ \hline
+        8 & 8 & 18.47 & -12.70\% & 160 & 31.8 & 2.78 & 513 & 2.55 & 2.88 & 926 & 7.24 & 2.92 \\ \hline
+        4 & 4 & 15.51 & -26.68\% & 89.7 & 0.588 & 4.96 & 267 & 2.14 & 5.54 & 479 & 4.3 & 5.64 \\ \hline
+    \end{tabular}
+    \label{tab:cnndm-asym-inference-large}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 small model on the XSUM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup\\ \hline
+         8 & 8 & 11.09 & 0.00\% & 135 & 2.73 & 1.00 & 227 & 3.51 & 1.00 & 332 & 1.91 & 1.00 \\ \hline
+        8 & 6 & 11.61 & 4.74\% & 108 & 1.70 & 1.25 & 196 & 1.94 & 1.16 & 303 & 7.95 & 1.10 \\ \hline
+        8 & 5 & 11.43 & 3.12\% & 94.1 & 3.02 & 1.43 & 183 & 3.43 & 1.24 & 281 & 6.77 & 1.18 \\ \hline
+        8 & 4 & 11.24 & 1.36\% & 82.7 & 2.66 & 1.63 & 168 & 2.33 & 1.35 & 263 & 2.24 & 1.26 \\ \hline
+        8 & 2 & 10.53 & -5.02\% & 55.8 & 1.72 & 2.42 & 141 & 1.53 & 1.61 & 234 & 5.01 & 1.42 \\ \hline
+        8 & 1 & 6.03 & -45.58\% & 41.1 & 0.64 & 3.28 & 124 & 0.414 & 1.83 & 215 & 4.69 & 1.54 \\ \hline
+        6 & 8 & 11.18 & 0.82\% & 133 & 3.51 & 1.02 & 204 & 3.63 & 1.11 & 295 & 5.72 & 1.13 \\ \hline
+        5 & 8 & 10.61 & -4.32\% & 134 & 3.42 & 1.01 & 193 & 3.76 & 1.18 & 273 & 10.4 & 1.22 \\ \hline
+        4 & 8 & 10.11 & -8.84\% & 130 & 2.77 & 1.04 & 185 & 13.6 & 1.23 & 245 & 6.45 & 1.36 \\ \hline
+        2 & 8 & 8.59 & -22.48\% & 126 & 4.77 & 1.07 & 163 & 6 & 1.39 & 203 & 4.1 & 1.64 \\ \hline
+        1 & 8 & 7.70 & -30.57\% & 126 & 3.38 & 1.07 & 148 & 2.02 & 1.53 & 180 & 2.85 & 1.84 \\ \hline
+        6 & 6 & 10.73 & -3.24\% & 104 & 0.45 & 1.30 & 178 & 3.24 & 1.28 & 254 & 2.37 & 1.31 \\ \hline
+        5 & 5 & 10.19 & -8.04\% & 91.6 & 2.10 & 1.47 & 151 & 1.78 & 1.50 & 219 & 10.3 & 1.52 \\ \hline
+        4 & 4 & 9.50 & -14.31\% & 79 & 3.38 & 1.71 & 124 & 2.42 & 1.83 & 178 & 1.59 & 1.87 \\ \hline
+        2 & 2 & 7.31 & -34.09\% & 49.5 & 2.56 & 2.73 & 74.8 & 1.9 & 3.03 & 101 & 0.719 & 3.29 \\ \hline
+        1 & 1 & 4.00 & -63.91\% & 32 & 1.25 & 4.22 & 48.7 & 2.11 & 4.66 & 61.9 & 1.81 & 5.36 \\ \hline
+    \end{tabular}
+    \label{tab:xsum-asym-inference-small}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 base model on the XSUM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup\\ \hline
+         12 & 12 & 15.69 & 0.00\% & 205 & 3.81 & 1.00 & 546 & 8.7 & 1.00 & 917 & 4.72 & 1.00 \\ \hline
+        12 & 10 & 15.27 & -2.65\% & 171 & 2.79 & 1.20 & 508 & 6.39 & 1.07 & 876 & 3.02 & 1.05 \\ \hline
+        12 & 8 & 14.91 & -4.97\% & 150 & 1.32 & 1.37 & 476 & 2.82 & 1.15 & 830 & 1.08 & 1.10 \\ \hline
+        12 & 6 & 15.40 & -1.83\% & 129 & 4.33 & 1.59 & 450 & 9.33 & 1.21 & 789 & 3.73 & 1.16 \\ \hline
+        12 & 4 & 15.19 & -3.18\% & 101 & 2.16 & 2.03 & 411 & 5.27 & 1.33 & 744 & 1.71 & 1.23 \\ \hline
+        12 & 2 & 13.73 & -12.47\% & 76 & 1.76 & 2.70 & 380 & 3.43 & 1.44 & 706 & 8.13 & 1.30 \\ \hline
+        10 & 12 & 15.92 & 1.47\% & 200 & 6.37 & 1.03 & 494 & 2.45 & 1.11 & 818 & 1.72 & 1.12 \\ \hline
+        8 & 12 & 14.10 & -10.09\% & 195 & 5.47 & 1.05 & 445 & 20.8 & 1.23 & 713 & 1.71 & 1.29 \\ \hline
+        6 & 12 & 13.84 & -11.79\% & 190 & 3.89 & 1.08 & 396 & 9.79 & 1.38 & 612 & 4.64 & 1.50 \\ \hline
+        4 & 12 & 12.10 & -22.88\% & 185 & 2.24 & 1.11 & 337 & 3.09 & 1.62 & 505 & 1.96 & 1.82 \\ \hline
+        2 & 12 & 10.27 & -34.53\% & 180 & 2.08 & 1.14 & 282 & 4.03 & 1.94 & 399 & 2.85 & 2.30 \\ \hline
+        10 & 10 & 15.72 & 0.22\% & 174 & 4.09 & 1.18 & 475 & 18.5 & 1.15 & 772 & 1.79 & 1.19 \\ \hline
+        8 & 8 & 14.30 & -8.85\% & 140 & 1.95 & 1.46 & 373 & 2.21 & 1.46 & 625 & 1.51 & 1.47 \\ \hline
+        6 & 6 & 12.44 & -20.68\% & 112 & 1.71 & 1.83 & 290 & 6.77 & 1.88 & 480 & 3.5 & 1.91 \\ \hline
+        4 & 4 & 10.67 & -31.95\% & 84.2 & 3.75 & 2.43 & 201 & 1.58 & 2.72 & 330 & 4.43 & 2.78 \\ \hline
+        2 & 2 & 7.74 & -50.65\% & 51.5 & 3.01 & 3.98 & 112 & 1.02 & 4.88 & 179 & 0.894 & 5.12 \\ \hline
+    \end{tabular}
+    \label{tab:xswum-asym-inference-base}
+\end{table*}
+
+\begin{table*}[!ht]
+    \centering
+    \caption{Role of model symmetry in inference efficiency on FLAN-T5 large model on the XSUM dataset}
+    \small
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+    \hline
+         $l_{enc}$ & $l_{dec}$ & R-2 & Impact & BS 1 & STD & Speedup & BS 8 & STD  & Speedup & BS 16 & STD & Speedup\\ \hline
+         24 & 24 & 16.34 & 0.00\% & 447 & 19.4 & 1.00 & 1480 & 23 & 1.00 & 2700 & 16.1 & 1.00 \\ \hline
+        24 & 20 & 19.80 & 21.16\% & 374 & 4.84 & 1.20 & 1410 & 17.5 & 1.05 & 2580 & 7.52 & 1.05 \\ \hline
+        24 & 16 & 19.30 & 18.09\% & 327 & 19.4 & 1.37 & 1320 & 8.18 & 1.12 & 2460 & 7.19 & 1.10 \\ \hline
+        24 & 12 & 18.92 & 15.77\% & 272 & 7.91 & 1.64 & 1240 & 7.06 & 1.19 & 2340 & 7.5 & 1.15 \\ \hline
+        24 & 8 & 17.96 & 9.93\% & 216 & 7.81 & 2.07 & 1170 & 11.4 & 1.26 & 2210 & 6.49 & 1.22 \\ \hline
+        24 & 4 & 16.47 & 0.76\% & 165 & 3.11 & 2.71 & 1090 & 3.66 & 1.36 & 2080 & 7.17 & 1.30 \\ \hline
+        20 & 24 & 19.43 & 18.88\% & 406 & 21.5 & 1.10 & 1310 & 11.5 & 1.13 & 2390 & 7.76 & 1.13 \\ \hline
+        16 & 24 & 18.33 & 12.16\% & 412 & 20.3 & 1.08 & 1140 & 6.88 & 1.30 & 2080 & 7.01 & 1.30 \\ \hline
+        12 & 24 & 16.90 & 3.39\% & 384 & 18.8 & 1.16 & 986 & 11 & 1.50 & 1750 & 686 & 1.54 \\ \hline
+        8 & 24 & 14.97 & -8.39\% & 369 & 8.87 & 1.21 & 822 & 15.5 & 1.80 & 1420 & 15.5 & 1.90 \\ \hline
+        4 & 24 & 12.52 & -23.37\% & 345 & 4.41 & 1.30 & 649 & 3.26 & 2.28 & 110 & 5.96 & 24.55 \\ \hline
+        20 & 20 & 19.18 & 17.38\% & 357 & 11.8 & 1.25 & 1230 & 13.2 & 1.20 & 2260 & 2.16 & 1.19 \\ \hline
+        16 & 16 & 17.56 & 7.43\% & 288 & 5.91 & 1.55 & 995 & 9.41 & 1.49 & 1820 & 5.33 & 1.48 \\ \hline
+        12 & 12 & 15.89 & -2.79\% & 217 & 3.09 & 2.06 & 748 & 3.25 & 1.98 & 1370 & 6.59 & 1.97 \\ \hline
+        8 & 8 & 12.15 & -25.66\% & 158 & 6.04 & 2.83 & 511 & 9.62 & 2.90 & 920 & 2.06 & 2.93 \\ \hline
+        4 & 4 & 8.96 & -45.14\% & 92.3 & 2.88 & 4.84 & 267 & 1.51 & 5.54 & 481 & 1.69 & 5.61 \\ \hline
+    \end{tabular}
+    \label{tab:xsum-asym-inference-large}
+\end{table*}
+\subsection{Responsible NLP Research - Reproducibility Checklist}
+\subsubsection{Scientific Artifacts}
+\noindent\textbf{Datasets.} We perform our experimentation on well-established benchmarks using many broad domains and a proprietary web summarization dataset. We do not perform any modification or augmentation on public benchmarks in any dataset.  \\
+\noindent\textbf{Models.} The model used as a starting point for all of our experiments is the family of flan-t5 models, publicly available via HuggingFace Hub~\footnote{https://huggingface.co/bert-base-uncased}. All other models presented in this paper are openly-available in the hugging face hub. 
+\subsubsection{Computational Experiments}
+Our experimentation on finetuning our compressed models uses a single 40GB A100. Finetuning time varies across datasets ranging from 1 hour for T5-small to 24 hours for T5-Large.  
+\subsubsection{Computational Packages}
+All of our experimentation is done using public libraries and datasets to ensure extensibility and reproducibility. Our investigation is done using HuggingFace's Transformers \footnote{https://github.com/huggingface/transformers} and Datasets \footnote{https://github.com/huggingface/datasets} libraries.

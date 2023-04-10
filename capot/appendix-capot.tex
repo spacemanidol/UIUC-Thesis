@@ -1,0 +1,225 @@
+\begin{table*}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 79.73\% & -0.04\% & 75.04\% & -5.88\% & 79.61\% & -0.15\% & 77.84\% & -2.37\% \\ \hline
+        Determiner & 74.59\% & -6.49\% & 72.33\% & -9.29\% & 77.67\% & -2.58\% & 76.23\% & -4.39\% \\ \hline
+        Synonym & 68.47\% & -14.16\% & 67.12\% & -15.81\% & 73.07\% & -8.35\% & 71.66\% & -10.12\% \\ \hline
+        Lemma & 74.33\% & -6.82\% & 74.79\% & -6.19\% & 77.95\% & -2.23\% & 77.70\% & -2.55\% \\ \hline
+        Stem & 74.24\% & -6.92\% & 71.36\% & -10.50\% & 77.95\% & -2.23\% & 76.84\% & -3.62\% \\ \hline
+        RCS & 67.12\% & -15.84\% & 66.81\% & -16.20\% & 75.24\% & -5.64\% & 75.43\% & -5.39\% \\ \hline
+        KCS & 67.01\% & -15.98\% & 67.26\% & -15.64\% & 75.82\% & -4.91\% & 75.60\% & -5.19\% \\ \hline
+        CD & 69.35\% & -13.06\% & 67.48\% & -15.37\% & 75.76\% & -4.98\% & 75.54\% & -5.26\% \\ \hline
+        RW & 76.46\% & -4.14\% & 73.68\% & -7.58\% & 78.39\% & -1.68\% & 77.98\% & -2.20\% \\ \hline
+        BT & 72.03\% & -9.70\% & 67.23\% & -15.68\% & 72.91\% & -8.56\% & 71.27\% & -10.61\% \\ \hline
+        Paraphrase & 72.00\% & -9.73\% & 66.45\% & -16.65\% & 73.05\% & -8.38\% & 71.63\% & -10.15\% \\ \hline
+        Average & 71.56\% & -10.28\% & 69.45\% & -12.89\% & 75.78\% & -4.95\% & 74.99\% & -5.95\% \\ \hline
+        Typos & 67.83\% & -14.96\% & 67.18\% & -15.74\% & 75.60\% & -5.17\% & 75.52\% & -5.28\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on NQ dataset with the recall set the size of 20}
+    \label{tab:capot-nq-20}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 85.82\% & -0.19\% & 84.60\% & -1.61\% & 86.29\% & 0.36\% & 85.04\% & -1.09\% \\ \hline
+        Determiner & 83.43\% & -2.96\% & 81.91\% & -4.73\% & 84.79\% & -1.38\% & 83.66\% & -2.70\% \\ \hline
+        Synonym & 79.75\% & -7.25\% & 73.12\% & -14.95\% & 81.94\% & -4.70\% & 81.08\% & -5.70\% \\ \hline
+        Lemma & 82.96\% & -3.51\% & 84.27\% & -1.99\% & 85.32\% & -0.77\% & 84.96\% & -1.19\% \\ \hline
+        Stem & 82.96\% & -3.51\% & 82.08\% & -4.54\% & 85.32\% & -0.77\% & 84.68\% & -1.51\% \\ \hline
+        RCS & 78.78\% & -8.37\% & 78.95\% & -8.18\% & 83.93\% & -2.38\% & 83.49\% & -2.90\% \\ \hline
+        KCS & 78.03\% & -9.24\% & 79.11\% & -7.99\% & 83.55\% & -2.83\% & 83.32\% & -3.09\% \\ \hline
+        CD & 79.64\% & -7.37\% & 79.28\% & -7.79\% & 84.29\% & -1.96\% & 83.74\% & -2.61\% \\ \hline
+        RW & 85.04\% & -1.09\% & 83.74\% & -2.61\% & 85.51\% & -0.54\% & 85.07\% & -1.06\% \\ \hline
+        BT & 80.11\% & -6.83\% & 77.98\% & -9.31\% & 80.53\% & -6.34\% & 79.31\% & -7.76\% \\ \hline
+        Paraphrase & 81.30\% & -5.44\% & 78.78\% & -8.37\% & 81.69\% & -4.99\% & 80.78\% & -6.05\% \\ \hline
+        Average & 81.62\% & -5.07\% & 79.92\% & -7.05\% & 83.69\% & -2.67\% & 83.01\% & -3.46\% \\ \hline
+        Typos & 78.82\% & -8.33\% & 79.11\% & -7.99\% & 83.92\% & -2.39\% & 83.52\% & -2.86\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on NQ dataset with the recall set the size of 100}
+    \label{tab:capot-nq-100}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 88.25\% & 0.00\% & 87.01\% & -1.41\% & 86.29\% & -2.22\% & 87.23\% & -1.16\% \\ \hline
+        Determiner & 85.99\% & -2.56\% & 84.88\% & -3.82\% & 86.73\% & -1.72\% & 86.43\% & -2.07\% \\ \hline
+        Synonym & 82.83\% & -6.15\% & 82.11\% & -6.96\% & 84.65\% & -4.08\% & 84.07\% & -4.73\% \\ \hline
+        Lemma & 85.13\% & -3.54\% & 86.48\% & -2.00\% & 87.37\% & -1.00\% & 87.23\% & -1.16\% \\ \hline
+        Stem & 85.72\% & -2.87\% & 84.88\% & -3.82\% & 87.37\% & -1.00\% & 87.04\% & -1.38\% \\ \hline
+        RCS & 81.96\% & -7.13\% & 82.44\% & -6.59\% & 85.96\% & -2.60\% & 85.71\% & -2.88\% \\ \hline
+        KCS & 81.52\% & -7.63\% & 82.52\% & -6.49\% & 85.82\% & -2.76\% & 86.12\% & -2.41\% \\ \hline
+        CD & 82.04\% & -7.04\% & 82.41\% & -6.62\% & 86.23\% & -2.29\% & 86.65\% & -1.82\% \\ \hline
+        RW & 87.34\% & -1.03\% & 86.37\% & -2.13\% & 87.40\% & -0.97\% & 87.51\% & -0.84\% \\ \hline
+        BT & 82.54\% & -6.47\% & 80.64\% & -8.63\% & 82.71\% & -6.27\% & 82.05\% & -7.03\% \\ \hline
+        Paraphrase & 84.09\% & -4.72\% & 82.19\% & -6.87\% & 83.91\% & -4.92\% & 83.77\% & -5.08\% \\ \hline
+        Average & 83.91\% & -4.91\% & 83.49\% & -5.39\% & 85.81\% & -2.76\% & 85.66\% & -2.94\% \\ \hline
+        Typos & 81.84\% & -7.27\% & 82.46\% & -6.57\% & 86.00\% & -2.55\% & 86.16\% & -2.37\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on NQ dataset with the recall set the size of 200}
+    \label{tab:capot-nq-200}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 79.40\% & 0.00\% & 73.52\% & -7.41\% & 76.16\% & -4.08\% & 78.53\% & -1.10\% \\ \hline
+        Determiner & 77.36\% & -2.57\% & 71.54\% & -9.90\% & 74.37\% & -6.34\% & 77.76\% & -2.07\% \\ \hline
+        Synonym & 75.11\% & -5.41\% & 69.17\% & -12.89\% & 73.22\% & -7.79\% & 75.97\% & -4.33\% \\ \hline
+        Lemma & 79.06\% & -0.43\% & 73.41\% & -7.54\% & 76.14\% & -4.10\% & 78.69\% & -0.90\% \\ \hline
+        Stem & 78.21\% & -1.50\% & 72.57\% & -8.60\% & 75.74\% & -4.60\% & 78.24\% & -1.46\% \\ \hline
+        RCS & 72.64\% & -8.51\% & 67.60\% & -14.86\% & 73.12\% & -7.91\% & 76.74\% & -3.35\% \\ \hline
+        KCS & 72.34\% & -8.89\% & 67.87\% & -14.52\% & 73.40\% & -7.55\% & 76.90\% & -3.15\% \\ \hline
+        CD & 73.14\% & -7.88\% & 67.86\% & -14.53\% & 73.31\% & -7.68\% & 76.47\% & -3.69\% \\ \hline
+        RW & 78.05\% & -1.70\% & 72.80\% & -8.31\% & 75.23\% & -5.25\% & 78.74\% & -0.83\% \\ \hline
+        BT & 74.05\% & -6.74\% & 68.13\% & -14.19\% & 70.65\% & -11.02\% & 73.56\% & -7.35\% \\ \hline
+        Paraphrase & 75.10\% & -5.41\% & 68.66\% & -13.52\% & 71.65\% & -9.76\% & 74.19\% & -6.56\% \\ \hline
+        Average & 75.51\% & -4.90\% & 69.96\% & -11.89\% & 73.68\% & -7.20\% & 76.73\% & -3.37\% \\ \hline
+        Typos & 72.71\% & -8.43\% & 67.78\% & -14.64\% & 73.28\% & -7.71\% & 76.71\% & -3.39\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on TriviaQA dataset with the recall set the size of 20}
+    \label{tab:capot-trivia-20}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 84.88\% & -0.15\% & 81.70\% & -3.89\% & 82.93\% & -2.45\% & 84.85\% & -0.19\% \\ \hline
+        Determiner & 83.70\% & -1.54\% & 80.49\% & -5.32\% & 81.71\% & -3.88\% & 84.25\% & -0.90\% \\ \hline
+        Synonym & 82.27\% & -3.23\% & 78.51\% & -7.64\% & 80.78\% & -4.97\% & 83.12\% & -2.23\% \\ \hline
+        Lemma & 84.68\% & -0.39\% & 81.67\% & -3.93\% & 82.85\% & -2.54\% & 84.93\% & -0.10\% \\ \hline
+        Stem & 84.20\% & -0.95\% & 81.09\% & -4.61\% & 82.67\% & -2.75\% & 84.82\% & -0.22\% \\ \hline
+        RCS & 80.92\% & -4.81\% & 77.83\% & -8.45\% & 81.23\% & -4.44\% & 83.72\% & -1.52\% \\ \hline
+        KCS & 81.19\% & -4.49\% & 77.88\% & -8.39\% & 81.29\% & -4.38\% & 83.95\% & -1.25\% \\ \hline
+        CD & 81.30\% & -4.37\% & 78.22\% & -7.99\% & 81.19\% & -4.49\% & 83.75\% & -1.48\% \\ \hline
+        RW & 84.20\% & -0.95\% & 81.17\% & -4.51\% & 82.56\% & -2.88\% & 84.86\% & -0.18\% \\ \hline
+        BT & 80.12\% & -5.75\% & 76.72\% & -9.76\% & 78.24\% & -7.97\% & 80.16\% & -5.70\% \\ \hline
+        Paraphrase & 82.21\% & -3.30\% & 78.43\% & -7.74\% & 79.80\% & -6.13\% & 82.29\% & -3.20\% \\ \hline
+        Average & 82.48\% & -2.98\% & 79.20\% & -6.83\% & 81.23\% & -4.44\% & 83.58\% & -1.68\% \\ \hline
+        Typos & 81.14\% & -4.56\% & 77.98\% & -8.28\% & 81.24\% & -4.44\% & 83.81\% & -1.42\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on TriviaQA dataset with the recall set the size of 100}
+    \label{tab:capot-trivia-100}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 86.66\% & 0.00\% & 84.03\% & -3.04\% & 84.96\% & -1.97\% & 86.60\% & -0.07\% \\ \hline
+        Determiner & 85.68\% & -1.13\% & 83.14\% & -4.06\% & 84.13\% & -2.92\% & 86.43\% & -0.26\% \\ \hline
+        Synonym & 84.55\% & -2.44\% & 81.43\% & -6.04\% & 83.18\% & -4.02\% & 85.32\% & -1.55\% \\ \hline
+        Lemma & 86.50\% & -0.18\% & 83.97\% & -3.10\% & 84.89\% & -2.04\% & 86.67\% & 0.01\% \\ \hline
+        Stem & 86.18\% & -0.56\% & 83.59\% & -3.55\% & 84.77\% & -2.18\% & 86.56\% & -0.11\% \\ \hline
+        RCS & 83.53\% & -3.61\% & 81.13\% & -6.38\% & 83.52\% & -3.62\% & 85.91\% & -0.87\% \\ \hline
+        KCS & 83.80\% & -3.30\% & 81.18\% & -6.32\% & 83.70\% & -3.42\% & 85.99\% & -0.77\% \\ \hline
+        CD & 83.84\% & -3.25\% & 81.30\% & -6.19\% & 83.60\% & -3.53\% & 85.82\% & -0.97\% \\ \hline
+        RW & 86.08\% & -0.67\% & 83.74\% & -3.37\% & 84.57\% & -2.42\% & 86.69\% & 0.03\% \\ \hline
+        BT & 82.64\% & -4.63\% & 79.41\% & -8.36\% & 80.60\% & -7.00\% & 82.37\% & -4.95\% \\ \hline
+        Paraphrase & 84.36\% & -2.65\% & 81.45\% & -6.01\% & 82.66\% & -4.62\% & 84.66\% & -2.30\% \\ \hline
+        Average & 84.72\% & -2.24\% & 82.03\% & -5.34\% & 83.56\% & -3.57\% & 85.64\% & -1.17\% \\ \hline
+        Typos & 83.72\% & -3.39\% & 81.20\% & -5.47\% & 83.61\% & -3.64\% & 85.91\% & -0.87\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on TriviaQA dataset with the recall set the size of 200}
+    \label{tab:capot-trivia-200}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+   
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 32.39\% & 0.00\% & 19.05\% & -41.18\% & 20.70\% & -35.89\% & 25.38\% & -21.39\% \\ \hline
+        Determiner & 25.85\% & -20.20\% & 15.50\% & -52.15\% & 16.42\% & -49.15\% & 25.25\% & -21.80\% \\ \hline
+        Synonym & 20.63\% & -36.30\% & 11.56\% & -64.30\% & 13.56\% & -58.01\% & 17.92\% & -44.49\% \\ \hline
+        Lemma & 31.50\% & -2.74\% & 18.76\% & -42.07\% & 20.66\% & -36.03\% & 25.90\% & -19.80\% \\ \hline
+        Stem & 26.87\% & -17.04\% & 16.72\% & -48.39\% & 18.68\% & -42.14\% & 25.13\% & -22.16\% \\ \hline
+        RCS & 16.85\% & -47.96\% & 12.09\% & -62.66\% & 15.13\% & -53.16\% & 22.91\% & -29.05\% \\ \hline
+        KCS & 16.00\% & -50.62\% & 12.16\% & -62.46\% & 14.86\% & -53.97\% & 22.63\% & -29.91\% \\ \hline
+        CD & 18.00\% & -44.41\% & 12.52\% & -61.36\% & 15.02\% & -53.49\% & 22.46\% & -30.45\% \\ \hline
+        RW & 31.19\% & -3.70\% & 18.41\% & -43.17\% & 19.91\% & -38.35\% & 28.18\% & -12.72\% \\ \hline
+        BT & 26.76\% & -17.40\% & 15.52\% & -52.08\% & 16.91\% & -47.63\% & 20.80\% & -35.58\% \\ \hline
+        Paraphrase & 26.56\% & -17.99\% & 15.51\% & -52.13\% & 16.82\% & -47.90\% & 21.05\% & -34.79\% \\ \hline
+        Average & 24.02\% & -25.84\% & 14.87\% & -54.08\% & 16.80\% & -47.98\% & 23.22\% & -28.08\% \\ \hline
+        Typos & 16.95\% & -47.66\% & 12.26\% & -62.16\% & 15.00\% & -53.54\% & 22.67\% & -29.80\% \\ \hline
+    \end{tabular}
+    \caption{MRR@10 and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on MSMARCO dataset.}
+    \label{tab:capot-msmarco-mrr10}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 32.39\% & 0.00\% & 19.05\% & -41.18\% & 20.70\% & -35.89\% & 25.38\% & -21.39\% \\ \hline
+        Determiner & 25.85\% & -20.20\% & 15.50\% & -52.15\% & 16.42\% & -49.15\% & 25.25\% & -21.80\% \\ \hline
+        Synonym & 20.63\% & -36.30\% & 11.56\% & -64.30\% & 13.56\% & -58.01\% & 17.92\% & -44.49\% \\ \hline
+        Lemma & 31.50\% & -2.74\% & 18.76\% & -42.07\% & 20.66\% & -36.03\% & 25.90\% & -19.80\% \\ \hline
+        Stem & 26.87\% & -17.04\% & 16.72\% & -48.39\% & 18.68\% & -42.14\% & 25.13\% & -22.16\% \\ \hline
+        RCS & 16.85\% & -47.96\% & 12.09\% & -62.66\% & 15.13\% & -53.16\% & 22.91\% & -29.05\% \\ \hline
+        KCS & 16.00\% & -50.62\% & 12.16\% & -62.46\% & 14.86\% & -53.97\% & 22.63\% & -29.91\% \\ \hline
+        CD & 18.00\% & -44.41\% & 12.52\% & -61.36\% & 15.02\% & -53.49\% & 22.46\% & -30.45\% \\ \hline
+        RW & 31.19\% & -3.70\% & 18.41\% & -43.17\% & 19.91\% & -38.35\% & 28.18\% & -12.72\% \\ \hline
+        BT & 26.76\% & -17.40\% & 15.52\% & -52.08\% & 16.91\% & -47.63\% & 20.80\% & -35.58\% \\ \hline
+        Paraphrase & 26.56\% & -17.99\% & 15.51\% & -52.13\% & 16.82\% & -47.90\% & 21.05\% & -34.79\% \\ \hline
+        Average & 24.02\% & -25.84\% & 14.87\% & -54.08\% & 16.80\% & -47.98\% & 23.22\% & -28.08\% \\ \hline
+        Typos & 16.95\% & -47.66\% & 12.26\% & -62.16\% & 15.00\% & -53.54\% & 22.67\% & -29.80\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on MSMARCO dataset with the recall set the size of 20}
+    \label{tab:capot-msmarco-20}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 88.79\% & 0.00\% & 67.87\% & -23.57\% & 71.83\% & -19.10\% & 79.70\% & -10.24\% \\ \hline
+        Determiner & 77.66\% & -12.54\% & 58.57\% & -34.04\% & 63.02\% & -29.02\% & 76.99\% & -13.29\% \\ \hline
+        Synonym & 68.09\% & -23.31\% & 47.12\% & -46.93\% & 55.01\% & -38.04\% & 61.96\% & -30.21\% \\ \hline
+        Lemma & 87.54\% & -1.41\% & 67.45\% & -24.03\% & 71.73\% & -19.21\% & 80.87\% & -8.92\% \\ \hline
+        Stem & 79.30\% & -10.69\% & 62.36\% & -29.76\% & 68.05\% & -23.36\% & 79.23\% & -10.77\% \\ \hline
+        RCS & 58.00\% & -34.68\% & 47.56\% & -46.43\% & 58.81\% & -33.76\% & 72.36\% & -18.50\% \\ \hline
+        KCS & 56.09\% & -36.83\% & 47.69\% & -46.29\% & 59.03\% & -33.52\% & 72.99\% & -17.79\% \\ \hline
+        CD & 61.97\% & -30.21\% & 49.99\% & -43.70\% & 58.77\% & -33.81\% & 71.99\% & -18.92\% \\ \hline
+        RW & 87.57\% & -1.37\% & 66.89\% & -24.66\% & 70.74\% & -20.32\% & 83.48\% & -5.98\% \\ \hline
+        BT & 78.60\% & -11.47\% & 57.97\% & -34.72\% & 62.49\% & -29.62\% & 68.91\% & -22.39\% \\ \hline
+        Paraphrase & 79.67\% & -10.27\% & 59.04\% & -33.51\% & 63.74\% & -28.21\% & 70.57\% & -20.52\% \\ \hline
+        Average & 74.84\% & -15.71\% & 56.46\% & -36.41\% & 63.14\% & -28.89\% & 73.94\% & -16.73\% \\ \hline
+        Typos & 58.68\% & -33.91\% & 48.41\% & -45.47\% & 58.87\% & -33.70\% & 72.45\% & -18.40\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on MSMARCO dataset with the recall set the size of 100}
+    \label{tab:capot-msmarco-100}
+\end{table*}
+\begin{table*}[!ht]
+    \centering
+    
+    \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+    \hline
+        Noise & Regular & Loss & PT & Loss & DA & Loss & CAPOT & Loss \\ \hline
+        None & 93.78\% & 0.00\% & 74.99\% & -20.04\% & 79.57\% & -15.15\% & 85.69\% & -8.63\% \\ \hline
+        Determiner & 83.56\% & -10.89\% & 65.60\% & -30.05\% & 70.56\% & -24.76\% & 82.68\% & -11.84\% \\ \hline
+        Synonym & 74.54\% & -20.52\% & 54.54\% & -41.84\% & 62.58\% & -33.27\% & 68.72\% & -26.72\% \\ \hline
+        Lemma & 92.57\% & -1.29\% & 74.61\% & -20.44\% & 79.31\% & -15.43\% & 86.68\% & -7.57\% \\ \hline
+        Stem & 84.70\% & -9.69\% & 69.81\% & -25.56\% & 75.62\% & -19.37\% & 85.24\% & -9.10\% \\ \hline
+        RCS & 64.42\% & -31.31\% & 54.66\% & -41.72\% & 66.40\% & -29.19\% & 78.87\% & -15.90\% \\ \hline
+        KCS & 62.87\% & -32.96\% & 54.67\% & -41.70\% & 67.32\% & -28.21\% & 79.48\% & -15.24\% \\ \hline
+        CD & 68.36\% & -27.11\% & 56.81\% & -39.43\% & 66.91\% & -28.66\% & 78.11\% & -16.71\% \\ \hline
+        RW & 92.63\% & -1.23\% & 74.27\% & -20.80\% & 78.04\% & -16.79\% & 89.43\% & -4.64\% \\ \hline
+        BT & 84.08\% & -10.34\% & 65.56\% & -30.09\% & 70.44\% & -24.88\% & 75.27\% & -19.74\% \\ \hline
+        Paraphrase & 85.82\% & -8.49\% & 67.15\% & -28.40\% & 71.35\% & -23.92\% & 77.48\% & -17.38\% \\ \hline
+        Average & 80.67\% & -13.98\% & 63.77\% & -32.00\% & 70.85\% & -24.45\% & 80.20\% & -14.48\% \\ \hline
+        Typos & 65.22\% & -30.46\% & 55.38\% & -40.95\% & 66.88\% & -28.69\% & 78.82\% & -15.95\% \\ \hline
+    \end{tabular}
+    \caption{Retrieval accuracy and relative loss across types of noise for unaltered (Regular), PreTrained Alignment (PT),  Data Augmentation (DA), and Post Training Contrastive Alignment (CAPOT) on MSMARCO dataset with the recall set the size of 200}
+    \label{tab:capot-msmarco-200}
+\end{table*}

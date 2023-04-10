@@ -1,0 +1,18 @@
+A bi-encoder-based retrieval, often called dense retrieval, is a retrieval function that leverages the vector representation of queries and documents as a proxy for relevance. Using two encoders, one for the query and one for the document, the input data is mapped into a common latent space where closeness becomes a proxy for relevance. \\
+Dense retrievers have become increasingly popular due to their ability to capture the semantic relationships between query and document terms. However, bi-encoder-based models can also be computationally expensive, particularly when dealing with large datasets. As a result, there has been a growing interest in methods for compressing these models to reduce their computational complexity without sacrificing performance.\\
+In this paper, we explore the role of asymmetry in the size of query and document encoders that leverage language models. Through experiments on several benchmarks, we demonstrate that our approach can significantly reduce the number of parameters in the bi-encoder model without sacrificing performance. \\
+As shown in figure \ref{fig:speed}, the combination of asymmetric bi-encoders and post-training KALE allows for 3x more QPS than an uncompressed bi-encoder with less than 1\% loss in accuracy and nearly 5x with less than 2\%.    \\
+Building on the favorable implications of asymmetry for efficient inference, we introduce a compression mechanism called \textbf{K}ullback-Leibler \textbf{Al}lingment of \textbf{E}mbeddings (KALE). KALE uses a divergence-based alignment of representations to compress models without requiring any form of retraining or index regeneration. \\
+To ground our approaches, we evaluate the effectiveness of KALE and asymmetry on several benchmark datasets and compare the results to existing efficient inference approaches. \\
+The following research questions drive our work: 
+\begin{itemize}
+    \item Is the performance of dense retrieval methods more driven by the query or document encoder size?
+    \item Is it possible to compress query encoders without retraining and index regeneration?
+    \item How can dense retrieval asymmetry and post-training alignment be leveraged to improve query encoder latency?
+\end{itemize}
+It is in answering these questions that we deliver the following contributions: 
+\begin{itemize}
+\item We present the first robust study on the role of document-query encoder symmetry, demonstrating that the size of the document encoder dominates performance. 
+\item We introduce and demonstrate the effectiveness of KALE, a post-training compression and alignment approach demonstrating its effectiveness and 
+\item We empirically demonstrate on various benchmarks how Asymmetric Compression can lead to 4.5 better QPS with 1\% loss in recall accuracy at 100.
+\end{itemize}

@@ -1,0 +1,151 @@
+While quantization and pruning have been well studied as applied to language models, work has studied the compression BERT\textsubscript{base} or BERT\textsubscript{large}. Despite existing research, we find that a clear case study that explores how best to create a family of compressed models is lacking, and this work seeks to remedy that. As part of our research, we compare the impact of varying pruning methods, pruning stage, teachers for KD, and freezing portions of the model as applied to the RoBERTa language model.\\
+While performing task-specific compression allows NLP practitioners to broadly adopt improvements in inference efficiency, having access to pre-optimized models is key. We produce a family of 8 general purpose language models, collectively called oBERTa, which progressively get smaller and faster with minimal losses in accuracy. \\
+The oBERTa models leverage a combination of structured and unstructured pruning to provide a set of compressed models which can meet a wide set of latency needs. This compression approach has not been extensively documented nor discussed. Our approach to producing the oBERTA models builds on prior explorations of the combination of compression methods \cite{Kurti2022TheOB} and addresses compression approaches in a staged manner as shown in Figure~\ref{fig:framework}.\\
+First, we create three structural variants starting with a RoBERTa\textsubscript{base} model. The base uses 12 transformer layers, the medium uses 6, and the small uses 3. Following prior work, we select interleaved layers for the 6-layer model and the first, middle, and last layers for the 3-layer model. Then, each of these 3 models is further pre-trained using masked language modeling on the Wikipedia-Bookcorpus text dataset, leveraging KD from a  RoBERTa\textsubscript{large} teacher. After that, each model is pruned using gradual magnitude pruning (GMP) to a desired sparsity level (90\% and 95\%) during additional pre-training based on masked language modeling, similar to Zafir et al. \cite{Zafrir2021PruneOF}. Further background on the RoBERTA model and why we did not prune using the WebText corpus can be found in the appendix. \\
+After pre-training, the sparsity profile is fixed, and models are fine-tuned and quantized on their target task with a small set of variable hyperparameters. Experimentation on the impact of larger teachers, frozen embeddings, and variations in pruning algorithms are discussed in subsequent portions of this work. 
+\subsection{Downstream Compression}
+We explore the impact of introducing unstructured sparsity during task-specific fine-tuning. We repeat each experiment with three different seeds and report the average F1 and Exact Match (EM) metrics in tables ~\ref{tab:OBS-downstream-squad} and \ref{tab:gmp-downstream-squad}. Following a basic hyperparameter sweep, our baseline RoBERTa\textsubscript{base} model achieves a performance of 83.95 EM and 91.13 F1 in the broadly used question-answering benchmark SQUAD V1.1 \cite{Rajpurkar2016SQuAD10}. \\
+We also perform unstructured pruning varying the sparsity 50-95\% and the pruning method: GMP and OBS. We prune each model for eight epochs, followed by an additional two epochs to allow the network to stabilize and re-converge. Knowledge distillation is used during training with the dense baseline model as a teacher, hardness set to $1.0$ and temperature set to $5.0$.  Further hyperparameters are in the appendix \ref{sec:downstream}.\\
+Table \ref{tab:Sparse-Benchmark} shows the impact of sparsity on BERT\textsubscript{base}, as reported by previous work. Comparing these results with tables \ref{tab:OBS-downstream-squad} and \ref{tab:gmp-downstream-squad}, we conclude that RoBERTa is more sensitive to pruning than BERT, although RoBERTa\textsubscript{base} pruned with OBS remains significantly more accurate than BERT\textsubscript{base} for the same level of sparsity.\\
+Table~\ref{tab:OBS-downstream-squad} shows that pruning RoBERTA\textsubscript{base} to 90\% with OBS results in a relative drop in F1 of 1.59\%, which is three times the relative drop reported for BERT\textsubscript{base} with the same pruning algorithm.
+Moreover, table~\ref{tab:gmp-downstream-squad} shows that RoBERTA\textsubscript{base} becomes very sensitive to pruning with GMP for sparsities above 85\%, with the relative drop in F1 increasing almost threefold between 85\% and 90\% sparsity.
+We conjecture that RoBERTa is more sensitive to pruning than BERT because the latter is relatively under-trained \cite{Liu2019RoBERTaAR}, making the more optimized RoBERTa more sensitive to the loss in expressivity caused by pruning.
+\begin{table}[!ht]
+    \centering
+    \tiny
+    \begin{tabular}{|l|l|l|l|}
+    \hline
+        Model & Sparsity& F1& Impact  \\ \hline
+         BERT\textsubscript{base} \cite{Devlin2019BERTPO} & 0 & 88.50 & N/A \\ \hline
+         BERT\textsubscript{large} \cite{Devlin2019BERTPO} & 0 &  90.9 & N/A \\ \hline
+         RoBERTa\textsubscript{base} \cite{Liu2019RoBERTaAR} & 0 & 91.13 & N/A \\ \hline
+         RoBERTA\textsubscript{large} \cite{Liu2019RoBERTaAR} & 0 & 94.60 & N/A \\ \hline
+         PruneBert\textsubscript{base} \cite{Sanh2020MovementPA} & 90 & 84.90 & -4.07 \%\\ \hline
+         PruneOFA\textsubscript{large} \cite{Zafrir2021PruneOF}& 90 & 87.25 & -1.41 \% \\ \hline
+         oBERT\textsubscript{large} \cite{Kurti2022TheOB} & 90 & 87.98 &  -0.58\%  \\ \hline
+         $GMP_\star$\textsubscript{large} \cite{Kurtic2022GMPWG} & 90 & 86.7 & -2.03\% \\ \hline
+    \end{tabular}
+    \caption{Performance of existing dense and sparse language models on the SQUAD v1.1 Question Answering Dataset}
+    \label{tab:Sparse-Benchmark}
+\end{table}
+\begin{table}[!ht]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+        Sparsity (\%) & EM & Impact & F1 & Impact \\ \hline
+        50 & 84.80 & 1.01\% & 91.49 & 0.40\% \\ \hline
+        60 & 84.64 & 0.82\% & 91.33 & 0.22\% \\ \hline
+        70 & 84.42 & 0.56\% & 91.13 & 0.00\% \\ \hline
+        80 & 84.64 & 0.82\% & 91.33 & 0.22\% \\ \hline
+        85 & 82.89 & -1.26\% & 90.12 & -1.11\% \\ \hline
+        90 & 82.48 & -1.75\% & 89.68 & -1.59\% \\ \hline
+        95 & 79.01 & -5.89\% & 87.05 & -4.47\% \\ \hline
+    \end{tabular}
+    \caption{Impact of Sparsity introduced by OBS on the F1 and EM scores of pruned RoBERTa models on the SQUAD V1.1 Dataset}
+    \label{tab:OBS-downstream-squad}
+\end{table}
+
+\begin{table}[!ht]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+        Sparsity (\%) & EM & Impact & F1 & Impact \\ \hline
+        50 & 84.90 & 1.13\% & 91.46 & 0.36\% \\ \hline
+        60 & 84.27 & 0.38\% & 90.91 & -0.24\% \\ \hline
+        70 & 83.37 & -0.69\% & 90.30 & -0.91\% \\ \hline
+        80 & 81.64 & -2.76\% & 88.86 & -2.49\% \\ \hline
+        85 & 81.64 & -2.76\% & 88.86 & -2.49\% \\ \hline
+        90 & 76.51 & -8.86\% & 84.90 & -6.83\% \\ \hline
+        95 & 69.39 & -17.34\% & 79.35 & -12.93\% \\ \hline
+    \end{tabular}
+    \caption{Impact of Sparsity introduced by GMP on the F1 and EM scores of pruned RoBERTa models on the SQUAD V1.1 Dataset}
+    \label{tab:gmp-downstream-squad}
+\end{table}
+\subsection{Upstream Compression}
+Based on our fine-tuning experiments, achieving a high degree of sparsity on the RoBERTA model leads to improvements in performance, but there are greater than expected losses in accuracy. Additionally, such compression is task-specific and non-amortizable, so we explore how best to generate general pruned RoBERTa models. While we eventually apply the winning set of training combinations to all of our variants of oBERTa, we first seek to answer the following questions: Does GMP or OBS perform better during pretraining pruning? Does Freezing the Embeddings during pretraining pruning further improve performance? Does the use of larger teachers further improve performance? \\
+We prune various models while varying individual variables during pretraining to evaluate these questions. We experiment by pruning an oBERTa\textsubscript{base} (12 layers) model to 90\% and 95\% sparsity on all non-embedding layers. All pretraining pruning happens using the Wikipedia-BookCorpus dataset, where we train for five epochs using a learning rate of 5e-5 and a batch size of 256 using 4 A100 GPUS. To evaluate the impact of these models, we evaluate performance on the previously used SQUAD v1.1 question-answering dataset, where we train with a fixed training regime of 10 epochs with a learning rate of 1.5e-4 based on the work of Kurtic et al. We train without KD for each finetuning run with an unpruned RoBERTa\textsubscript{base} or an unpruned RoBERTa\textsubscript{large}. Details for the hyperparameters used to train all teacher models can be found in the appendix \ref{sec:TeacherStats}.  \\
+\begin{table}[!ht]
+    \centering
+    \tiny
+    \scalebox{0.65}{
+    \begin{tabular}{|l|*4l|*4l|}
+    \toprule
+         &  \multicolumn{4}{l}{GMP} & \multicolumn{4}{l}{OBS} \\ 
+        \toprule
+        Model & F1 & Impact & EM & Impact & F1 & Impact & EM & Impact \\ \hline
+        RoBERTA\textsubscript{base} & 92.18 & 0.00\% & 85.59 & 0.00\% & 92.18 & 0.00\% & 85.59 & 0.00\% \\ \hline
+        oBERTa 90\% No KD & 88.34 & -4.17\% & 80.19 & -6.31\% & 87.72 & -4.83\% & 79.35 & -7.29\% \\ \hline
+        oBERTa 90\% RoBERTA\textsubscript{base} KD & 88.75 & -3.72\% & 81.35 & -4.95\% & 88.60 & -3.88\% & 81.37 & -4.93\% \\ \hline
+        oBERTa 90\% RoBERTA\textsubscript{large} KD & 89.65 & -2.75\% & 83.12 & -2.88\% & 89.63 & -2.76\% & 82.94 & -3.09\% \\ \hline
+        oBERTa 95\% No KD & 86.58 & -6.07\% & 78.81 & -7.92\% & 84.90 & -7.90\% & 76.82 & -10.25\% \\ \hline
+        oBERTa 95\% RoBERTA\textsubscript{base} KD & 86.99 & -5.63\% & 79.41 & -7.22\% & 86.14 & -6.55\% & 78.63 & -8.13\% \\ \hline
+        oBERTa 95\% RoBERTA\textsubscript{large} KD & 87.60 & -4.97\% & 80.44 & -6.01\% & 86.14 & -6.55\% & 79.84 & -6.72\% \\ \hline
+        \bottomrule
+    \end{tabular}}
+    \caption{Impact on F1 of SQUAD V1.1 of using OBS vs. GMP as the pruning method during pretraining. Impact measures the relative loss in performance vs. the unpruned RoBERTa\textsubscript{base} baseline.}
+    \label{tab:OBS-vs-GMP-hard1.0}
+\end{table}
+Comparing the use of OBS vs. GMP as shown in table \ref{tab:OBS-vs-GMP-hard1.0}, we can see that GMP consistently outperforms OBS. This is the opposite of what is seen when pruning downstream or, in prior work, pruning BERT. We attribute this inversion to not using the web-text dataset and leveraging the Wikipedia-book-corpus instead. We believe that without access to the original training corpus OBS is leading to overfitting of the sparse models, a dataset that is not its intended target. \\
+\begin{table}[!ht]
+    \centering
+    \small
+    \scalebox{0.57}{
+    \begin{tabular}{|l|*4l|*4l|}
+    \toprule
+         &  \multicolumn{4}{l}{Hardness 0.5} & \multicolumn{4}{l}{Hardness 1.0} \\ 
+        \toprule
+        Model & F1 & Impact & EM & Impact & F1 & Impact & EM & Impact \\ \hline
+         RoBERTA\textsubscript{base} & 92.18 & 0.00\% & 85.59 & 0.00\% & 92.18 & 0.00\% & 85.59 & 0.00\% \\ \hline
+        oBERTa 90\% No KD & 88.21 & -4.31\% & 80.19 & -6.31\% & 88.34 & -4.17\% & 80.19 & -6.31\% \\ \hline
+        oBERTa 90\% Base KD & 89.19 & -3.25\% & 81.74 & -4.50\% & 88.75 & -3.72\% & 81.35 & -4.95\% \\ \hline
+        oBERTa 90\% Large KD & 90.14 & -2.21\% & 83.51 & -2.43\% & 89.65 & -2.75\% & 83.12 & -2.88\% \\ \hline
+        oBERTa-95 No KD & 85.82 & -6.90\% & 77.77 & -9.14\% & 86.58 & -6.07\% & 78.81 & -7.92\% \\ \hline
+        oBERTa-95 Base KD & 86.98 & -5.64\% & 79.23 & -7.43\% & 86.99 & -5.63\% & 79.41 & -7.22\% \\ \hline
+        oBERTa-95 Large KD & 87.66 & -4.91\% & 80.40 & -6.07\% & 87.60 & -4.97\% & 80.44 & -6.01\% \\ \hline
+        \bottomrule
+    \end{tabular}}
+    \caption{Impact on F1 of SQUAD V1.1 by hardness in KD during pretraining pruning. Impact measures the relative loss in performance vs. the unpruned RoBERTa\textsubscript{base} baseline.}
+    \label{tab:hardness-oberta}
+\end{table}
+  Evaluating the impact of variations in the hardness  of KD as shown in table \ref{tab:hardness-oberta}, there is a bit more of a muted set of conclusions. The 95\% sparse models perform better with a hardness of 1.0, while the 90\% models do better with a hardness of 0.5. Given that our goal is to preserve most of the RoBERTa model without actually using its large dataset, we set our hardness to 1.0 as it keeps the model from explicitly learning the new dataset. \\
+\begin{table}[!ht]
+    \centering
+    \small
+    \scalebox{0.5}{
+    \begin{tabular}{|l|*4l|*4l|}
+    \toprule
+          &  \multicolumn{4}{l}{Frozen Embeddings} & \multicolumn{4}{l}{Trained Embeddings} \\ 
+        \midrule
+        Model & F1 & Impact & EM & Impact & F1 & Impact & EM & Impact \\ \hline
+        RoBERTa\textsubscript{base} & 92.18 & 0.00\% & 85.59 & 0.00\% & 92.18 & 0.00\% & 85.59 & 0.00\% \\ \hline
+        oBERTa\textsubscript{base} 90\% no KD & 87.71 & -4.85\% & 79.62 & -6.98\% & 88.21 & -4.31\% & 80.19 & -6.31\% \\ \hline
+        oBERTa\textsubscript{base} 90\% RoBERTa\textsubscript{base} KD & 89.7 & -2.69\% & 81.74 & -4.50\% & 89.19 & -3.24\% & 83.07 & -2.94\% \\ \hline
+        oBERTa\textsubscript{base} 90\% RoBERTa\textsubscript{large} KD & 89.59 & -2.81\% & 82.98 & -3.05\% & 90.14 & -2.21\% & 83.51 & -2.43\% \\ \hline
+        \bottomrule
+    \end{tabular}}
+    \caption{Impact on F1 of SQUAD V1.1 with respect to the use of frozen embeddings or not during pretraining pruning. Impact measures the relative loss in performance vs. the unpruned RoBERTa\textsubscript{base} baseline.}
+    \label{tab:freeze-embd-oberta}
+\end{table}
+When we evaluate the impact of freezing embeddings during pre-training, as shown in table \ref{tab:freeze-embd-oberta}, we find strong evidence that using frozen embeddings consistently leads to worse performance and, as a result, does not freeze embeddings during our model pruning. Looking at the impact of varying the size of the teacher for pretraining KD as shown in table \ref{tab:upsteam-teach}, we unsurprisingly find clear evidence that using a larger teacher during pretraining pruning leads to improvements in performance. \\
+\begin{table}[!ht]
+    \centering
+    \small
+    \scalebox{0.55}{
+    \begin{tabular}{|l|*4l|*4l|}
+    \toprule
+          &  \multicolumn{4}{l}{Base Upstream Teacher} & \multicolumn{4}{l}{Large Upstream Teacher} \\ 
+        \midrule
+        Model & F1 & Impact & EM & Impact & F1 & Impact & EM & Impact \\ \hline
+        RoBERTA\textsubscript{base} & 92.18 & 0.00\% & 85.59 & 0.00\% & 92.18 & 0.00\% & 85.59 & 0.00\% \\ \hline
+        oBERTa 90\% no KD  & 88.34 & -4.17\% & 80.59 & -5.84\% & 88.1 & -4.43\% & 80.06 & -6.46\% \\ \hline
+        oBERTa 90\% Base KD & 88.75 & -3.72\% & 81.35 & -4.95\% & 89.22 & -3.21\% & 82.02 & -4.17\% \\ \hline
+        oBERTa 90\% Large KD & 89.65 & -2.74\% & 83.12 & -2.89\% & 89.98 & -2.39\% & 83.14 & -2.86\% \\ \hline
+        \bottomrule
+    \end{tabular}}
+    
+    \caption{Impact on F1 of SQUAD V1.1 with respect variation is the size of the teacher in KD during pretraining pruning. Impact measures the relative loss in performance vs. the unpruned RoBERTa\textsubscript{base} baseline.}
+    \label{tab:upsteam-teach}
+\end{table}
+Using these experiments, we generate the recipe, which we then use to create the many variants of oBERTa. We pre-train models using KD using a RoBERTa\textsubscript{large} teacher with a hardness of 1.0; we do not freeze the embeddings and use GMP to prune.

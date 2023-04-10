@@ -1,0 +1,89 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+\usepackage{authblk}
+\usepackage[]{acl2023}
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage[thinlines]{easytable}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{lipsum}
+\usepackage{mathtools}
+\usepackage{cuted}
+\usepackage{makecell}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{booktabs}       
+\usepackage{array}         
+\usepackage{colortbl}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+\newcommand{\Lagr}{\mathcal{L}}
+\title{Noise-Robust Dense Retrieval via Contrastive Alignment Post Training}
+\author[1,]{Daniel Campos}
+\author[1]{ChengXiang Zhai}
+\author[2]{Alessandro Magnani}
+\affil[1]{Department of Computer Science, the University of Illinois Urbana-Champaign}
+\affil[2]{Walmart Labs}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The success of contextual word representations and advances in neural information retrieval have made dense vector-based retrieval a standard approach for passage and document ranking. While effective and efficient, dual-encoders are brittle to variations in query distributions and noisy queries. Data augmentation can make models more robust but introduces overhead to training set generation and requires retraining and index regeneration. We present Contrastive Alignment POst Training (CAPOT), a highly efficient finetuning method that improves model robustness without requiring index regeneration, the training set optimization, or alteration. CAPOT enables robust retrieval by freezing the document encoder while the query encoder learns to align noisy queries with their unaltered root. We evaluate CAPOT noisy variants of MSMARCO, Natural Questions, and Trivia QA passage retrieval, finding CAPOT has a similar impact as data augmentation with none of its overhead.
+\end{abstract}
+\section{Introduction}
+\label{sec:intro}
+\input{intro}
+\section{Related Work}
+\label{sec:rel}
+\input{related}
+\section{Query Encoders Meet Noise}
+\label{sec:create}
+\input{method}
+\section{Incorporating Noise By Aligning Representations}
+\input{experiment}
+\section{Discussion}
+\input{discussion}
+\section{Conclusion and Future Work}
+\input{conclusion}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+\appendix
+\input{appendix}
+\end{document}

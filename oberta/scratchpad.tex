@@ -1,0 +1,27 @@
+
+Next, we go ahead and benchmark the oBERTa model performance against existing sparse-transfer models such as oBERT and PruneOFA using the models that have been published \footnote{Since the PruneBERT model is not available in the zoo, we extrapolate numbers using the performance of our oBERTa\textsubscript{base} pruned 90\% as both models feature 12 transformer encoders and 90\% sparsity.} in Neural Magic's Sparse-Zoo \footnote{https://sparsezoo.neuralmagic.com/}. We run these models using four cores and a batch size of 1 and compare their speedup (or slowdown) relative to their performance on the SQUAD v1.1 question-answering benchmark. Results can be found in table \ref{tab:inference-competitive-short} and full results in \ref{tab:inference-competitive-full}. Looking at the improvements in accuracy and inference throughput, we find the oBERTa models are 1.3 to 4 times better than models with approximately the same accuracy.  \\
+\begin{table}[!ht]
+    \centering
+    \scalebox{0.5}{
+    \begin{tabular}{|l|l|*2l|*2l|}
+    \toprule
+        \multicolumn{2}{l}{} &  \multicolumn{2}{l}{Vs.\ \alex{\st{BERT\textsubscript{base}} BERT\textsubscript{base}}} & \multicolumn{2}{l}{Vs.\ \alex{\st{BERT-Large} BERT\textsubscript{LARGE}}} \\ \hline
+        Model & F1 & Recovery & Speedup & Recovery & Speedup \\ \hline
+        oBERTa\textsubscript{base} 90\% & 91.00 & 102.77\% & 3.57 & 100.44\% & 20.21 \\ \hline
+        obert\textsubscript{LARGE 95\% Quantized & 90.21 & 101.87\% & 3.41 & 99.57\% & 19.31 \\ \hline
+        \midrule
+        prunedOFA\textsubscript{LARGE} 90\% Quantized & 89.96 & 101.59\% & 2.38 & 99.29\% & 13.47 \\ \hline
+        oBERTa\textsubscript{base} 90\% Quantized & 89.46 & 101.03\% & 7.62 & 98.74\% & 43.07 \\ \hline
+        \midrule
+        oBERTa\textsubscript{MEDIUM} 90\%   & 89.26 & 98.99\% & 7.78 & 96.75\% & 43.99 \\ \hline
+        obert\textsubscript{base} 90\% Quantized & 88.00 & 99.38\% & 6.96 & 97.13\% & 39.37 \\ \hline
+        \midrule
+        oBERTa\textsubscript{SMALL} 90\% & 84.66 & 90.97\% & 13.95 & 88.91\% & 78.91 \\ \hline
+        pruneBERT & 84.90 & 95.88\% & 3.57  & 93.71\% & 73.82 \\ \hline
+        
+        \bottomrule
+    \end{tabular}}
+    \caption{Speedups of the oBERTa-family compared to existing published sparse models compared to the performance of BERT\textsubscript{base} and BERT-large. Speedup measures the reduction in latency of MS/batch. oBERTA\textsubscript{base} 90\% exceeds the accuracy of oBERT 95\% quantized despite being faster, oBERTa\textsubscript{base} 90\% quantized performs at the level of pruneOFA-large 90\% Quantized despite being 3x faster, oBERTa\textsubscript{MEDIUM} 90\% can outperform oBERT\textsubscript{base } 90\% Quantized despite being 30\% faster, and oBERTa\textsubscript{SMALL} 90\% performs on par with pruneBERT despite being nearly four times faster. }
+    \label{tab:inference-competitive-short}
+\end{table}
+Looking at the competitive results, we find that the oBERTa-* models can deliver significant gains in performance (F1) relative to speedups. The oBERTa\textsubscript{base}Pruned 90\% Quantized model achieves an undertaking that nearly matches pruneOFA-large 90\% Quantized while delivering nearly 13x faster inference. Similarly, the oBERTA\textsubscript{SMALL} 90\%  model provides similar accuracy to PruneBERT despite being over four times faster.

@@ -1,0 +1,144 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+\usepackage{authblk}
+\usepackage[review]{acl2023}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{adjustbox}
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{array}          % tables with fixed lengths - enables using "m" to center content of non-multirow cells
+\usepackage{colortbl}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcommand{\greyrule}{\arrayrulecolor{black!30}\midrule\arrayrulecolor{black}}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\title{Quick Dense Retrievers Consume KALE: Post Training Kullback–Leibler Alignment of Embeddings for Asymmetrical dual encoders}
+\author[1]{Daniel Campos \thanks{~~~Corresponding author: dcampos3@illinois.edu}}
+\author[2]{Alessandro Magnani}
+\author[1]{ChengXiang Zhai}
+\affil[1]{Department of Computer Science, the University of Illinois Urbana-Champaign}
+\affil[2]{Walmart Labs}
+\begin{document}
+\maketitle
+\begin{abstract}
+In this paper, we consider the problem of improving the inference latency of language model-based dense retrieval systems by introducing structural compression and model size asymmetry between the context and query encoders. First, we investigate the impact of pre and post-training compression on the MSMARCO, Natural Questions, TriviaQA, SQUAD, and SCIFACT, finding that asymmetry in the dual-encoders in dense retrieval can lead to improved inference efficiency. Knowing this, we introduce \emph{Kullback–Leibler Alignment of Embeddings} (KALE), an efficient and accurate method for increasing the inference efficiency of dense retrieval methods by pruning and aligning the query encoder after training. Specifically, KALE extends traditional Knowledge Distillation after bi-encoder training, allowing for effective query encoder compression without full retraining or index generation. Using KALE and asymmetric training, we can generate models which exceed the performance of DistilBERT despite having 3x faster inference. 
+\end{abstract}
+\section{Introduction}
+\begin{figure}[!htb]
+\begin{tikzpicture}
+\scalebox{0.85}{
+\begin{axis}[
+    title={Recall at 100 vs. Queries Per Second (QPS) on the NQ dataset},
+    xlabel={Recall at 100},
+    ylabel={QPS},
+    xmin=84, xmax=86,
+    ymin=90 , ymax=450,
+    xtick={84.5, 85, 85.5},
+    ytick={100, 150, 200, 300,400},
+    legend pos=north east,
+    ymajorgrids=true,
+    grid style=dashed,
+    legend style={nodes={scale=0.4, transform shape}}, 
+    legend image post style={mark=*}
+]
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    (85.8,106)
+    };
+
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    (84.74,172)
+    };
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (85.4,172)
+    };
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (85.7,300)
+    };
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (84.3,441)
+    };
+
+\legend{BERT\textsubscript{BASE}, DistilBERT, BERT\textsubscript{BASE}-KALE-6layer (ours),BERT\textsubscript{BASE}-KALE-3layer (ours), BERT\textsubscript{BASE}-KALE-2layer (ours) }
+ \end{axis}}
+\end{tikzpicture}
+    \centering
+    \caption{Using KALE and asymmetric training on the lead to when measuring QPS vs. Recall at 100 on the NQ dataset. Using Asymmetry and KALE, it is possible to 3x QPS with no loss in accuracy and 4.5x with 1\% loss in performance. We calculate QPS as the mean number of queries per second with a batch size of 1 and a max sequence length of 32 on a T4 GPU}
+    \label{fig:speed}
+\end{figure}
+\input{intro}
+\section{Related Work}
+\input{related}
+\section{Method}
+\input{method}
+\section{KL Alignment of Embeddings}
+\input{experiment}
+\input{discussion}
+\bibliographystyle{acl_natbib}
+\bibliography{anthology,custom}
+\appendix
+\input{appendix}
+\end{document}

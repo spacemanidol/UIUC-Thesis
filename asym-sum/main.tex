@@ -1,0 +1,124 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+\usepackage{authblk}
+\usepackage[review]{acl2023}
+\usepackage{times}
+\usepackage{xcolor}
+\usepackage[thinlines]{easytable}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{array}          % tables with fixed lengths - enables using "m" to center content of non-multirow cells
+\usepackage{colortbl}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{array}
+\usepackage{booktabs}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\abovetopsep}{4pt}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{soul}
+
+\title{To Asymmetry and Beyond: Structured Pruning of Sequence to Sequence Models for Improved Inference Efficiency  \thanks{~~~Corresponding author: dcampos3@illinois.edu}}
+\author[1,2]{Daniel Campos}
+\author[1]{ChengXiang Zhai}
+\affil[1]{Department of Computer Science, the University of Illinois Urbana-Champaign}
+\affil[2]{Neeva Inc.}
+\begin{document}
+\maketitle
+\begin{abstract}
+Sequence-to-sequence language models can be used to produce abstractive summaries which are coherent, relevant, and concise. Still, model sizes can make deployment in latency-sensitive or web-scale implementations difficult. This paper studies the relationship between model size, structured pruning, inference efficiency, and summarization accuracy on widely used summarization datasets. We show that model accuracy is tied to the encoder size while inference efficiency is connected to the decoder. Using asymmetric pruning can lead to nearly 3x improvement in inference latency with ~1 point loss in Rouge-2. Moreover, we find both the average degradation and the role of asymmetry to be consistent across model sizes and variations in datasets.  We release our code\footnote{https://github.com/spacemanidol/Efficient-Web-Scale-Absractive-Summarization}, training regimes, and associated model \footnote{https://huggingface.co/spacemanidol} for broad usage to encourage usage and experimentation. 
+ \end{abstract}
+\begin{figure}[!htb]
+\begin{tikzpicture}
+\scalebox{0.85}{
+\begin{axis}[
+    title={Accuracy vs. Inference Speed},
+    xlabel={Inference Speedup},
+    ylabel={\% Degradation in Rouge-2},
+    xmin=1, xmax=4,
+    ymin=-40 , ymax=2,
+    xtick={1,2,3},
+    ytick={-30,-20,-10, 0},
+    legend pos=south west,
+    ymajorgrids=true,
+    grid style=dashed,
+    legend style={nodes={scale=0.4, transform shape}}, 
+    legend image post style={mark=*}
+]
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (1.18, 0.59) (1.43, -2.16) (1.8,-4.36) (2.44, -5.99) (3.83, -9.85)
+    };
+\addplot[
+    color=red,
+    mark=square,
+    ]
+    coordinates {
+    (1.01, -2.62) (1.03, -3.93) (1.04,-8.42) (1.04, -10.57) (1.06, -18.89)
+    };
+\addplot[
+    color=green,
+    mark=square,
+    ]
+    coordinates {
+    (1.19, -2.80) (1.40, -3.71) (1.91,-11.69) (2.20, -17.62) (2.44, -39.06)
+    };
+\legend{Prune Decoder, Prune Encoder, Prune Both}
+ \end{axis}}
+\end{tikzpicture}
+    \centering
+    \caption{Impact of Asymmetrical Pruning on inference speedups and ROUGE-2 degradation on Query Independent Web Summarization. Inference Time is the mean inference time for a batch size of 1 on an A10 GPU over seven iterations.   }
+    \label{fig:speed}
+\end{figure}
+\section{Introduction}
+\input{intro}
+\section{Related Work}
+\input{related}
+\section{Scale and Abstractive Summarization}
+\input{method}
+\section{To Asymmetry and Beyond}
+\input{experiment}
+\section{Conclusion and Future Work}
+In this work, we explore the role of symmetry in the pruning of sequence-to-sequence models for abstractive summarization, finding that pruning asymmetrically can lead to inference speedups with low losses in accuracy. Our work also explores the relationship between model scale and the sensitivity to pruning, finding that larger models see lower losses when pruned. This compresses FLAN-T5 models to deliver ~3x inference gains with a ~1 Rouge-2 point loss. \\
+In future work, we seek to study how pseudo labeling, early exiting, and quantization can be combined to improve further the inference efficiency of sequence-to-sequence models.  
+\bibliography{anthology,custom}
+\bibliographystyle{acl_natbib}
+\appendix
+\section{Appendix}
+\label{sec:appendix}
+\input{appendix}
+\end{document}
